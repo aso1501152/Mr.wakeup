@@ -16,7 +16,11 @@ public class DBManager extends SQLiteOpenHelper{
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE IF NOT EXISTS Tabira(_id INTEGER PRIMARY KEY AUTOINCREMENT, phone_namber INT,youbi VARCHARA(8),time TIME)");
+        db.execSQL("CREATE TABLE IF NOT EXISTS tabira" +
+                "(_id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                " phone_number INTEGER," +
+                " day TEXT," +
+                " time INTEGER)");
     }
 
     @Override
