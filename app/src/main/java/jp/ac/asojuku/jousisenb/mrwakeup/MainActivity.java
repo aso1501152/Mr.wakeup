@@ -33,14 +33,14 @@ public class MainActivity extends AppCompatActivity {
         });
 
         //Buttonを認識させる
+        final Button setButton = (Button)findViewById(R.id.strartbutton);
         Button buttonAction = (Button)findViewById(R.id.strartbutton);
         //ボタンにリスナーをセット
         buttonAction.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //タップされたらボタンの文字を変更
-                Button button = new Button(startbutton.this,stopbutton.button);
-
+                setButton.setText(R.string.button_stop);
             }
         });
     }
