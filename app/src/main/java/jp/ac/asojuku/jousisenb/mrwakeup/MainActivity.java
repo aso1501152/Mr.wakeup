@@ -1,14 +1,16 @@
 package jp.ac.asojuku.jousisenb.mrwakeup;
 
 import android.content.Intent;
-import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+
 public class MainActivity extends AppCompatActivity {
+
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -33,10 +35,10 @@ public class MainActivity extends AppCompatActivity {
         });
 
         //Buttonを認識させる
-        final Button setButton = (Button)findViewById(R.id.strartbutton);
-        Button buttonAction = (Button)findViewById(R.id.strartbutton);
+        final Button setButton = (Button)findViewById(R.id.setbutton);
+        //Button buttonAction = (Button)findViewById(R.id.strartbutton);
         //ボタンにリスナーをセット
-        buttonAction.setOnClickListener(new View.OnClickListener() {
+        setButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //タップされたらボタンの文字を変更

@@ -31,7 +31,6 @@
         android:textColor="@color/bootstrap_brand_info"
         tools:text="@string/set_time"
         android:layout_marginBottom="108dp"
-        android:layout_above="@+id/strartbutton"
         android:layout_centerHorizontal="true" />
 
     <Button
