@@ -11,16 +11,19 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DBManager extends SQLiteOpenHelper{
 
     public DBManager(Context context){
-        super(context,"Horiguthi",null,1);
+        super(context,"Horiguthi",null,4);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE IF NOT EXISTS tabira" +
                 "(_id INTEGER PRIMARY KEY AUTOINCREMENT," +
-                " phone_number INTEGER," +
+                " phone_number TEXT," +
                 " day TEXT," +
-                " time INTEGER)");
+                " time TEXT)");
+
+        db.execSQL("INSERT INTO VALUES(1,'08044445555','0101100','1700'");
+
     }
 
     @Override
