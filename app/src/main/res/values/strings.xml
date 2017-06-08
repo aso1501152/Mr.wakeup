@@ -1,3 +1,7 @@
 <resources>
+    //文字を使いたいときはここに入力したものを呼び出して
     <string name="app_name">Mr.wakeup</string>
+    <string name="button_start">START</string>
+    <string name="button_stop">STOP</string>
+    <string name="set_time">07:00</string>
 </resources>
