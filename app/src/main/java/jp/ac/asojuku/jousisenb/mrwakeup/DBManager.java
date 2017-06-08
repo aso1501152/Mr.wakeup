@@ -22,7 +22,7 @@ public class DBManager extends SQLiteOpenHelper{
                 " day TEXT," +
                 " time TEXT)");
 
-        db.execSQL("INSERT INTO VALUES(1,'08044445555','0101100','1700'");
+        db.execSQL("INSERT INTO tabira VALUES(1,'08044445555','0101100','1700'");
 
     }
 
