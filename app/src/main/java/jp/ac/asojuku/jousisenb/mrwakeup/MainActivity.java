@@ -53,13 +53,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onResume(){
         super.onResume();
 
+        // DBManager のインスタンス生成
         dbm = new DBManager(this);
         sqlDB = dbm.getWritableDatabase();
+        //String time = dbm.getSetTime(SQLiteDatabase db);
 
         //時計をクリックしたら設定画面に飛ぶように設定
-        TextView textView = (TextView)findViewById(R.id.setTime);
+        TextView clock = (TextView)findViewById(R.id.setTime);
+        clock.setText("7:00");  //DBから取得したやつをセットしたい
         //TextViewにリスナーをセット
-        textView.setOnClickListener(new View.OnClickListener(){
+        clock.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
                 //時計をタップされたら次の画面を表示

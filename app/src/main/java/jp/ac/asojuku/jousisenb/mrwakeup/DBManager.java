@@ -1,17 +1,21 @@
 package jp.ac.asojuku.jousisenb.mrwakeup;
 
 import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteCursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import java.io.FileNotFoundException;
 
 /**
  * Created by yabumoto on 2017/06/02.
  */
 
-public class DBManager extends SQLiteOpenHelper{
+public class DBManager extends SQLiteOpenHelper {
 
-    public DBManager(Context context){
-        super(context,"Horiguthi",null,4);
+    public DBManager(Context context) {
+        super(context, "Horiguthi", null, 4);
     }
 
     @Override
@@ -24,6 +28,20 @@ public class DBManager extends SQLiteOpenHelper{
 
         db.execSQL("INSERT INTO tabira VALUES(1,'08044445555','0101100','1700'");
 
+    }
+
+    //ユーザーからセットされた時間を得る
+    public String getSetTime(SQLiteDatabase db) {
+        String result = null;
+        String select = "SELECT time FROM tabira";
+
+        SQLiteCursor cursor = (SQLiteCursor)db.rawQuery(select,null);
+        if(cursor.getCount() != 0){
+            cursor.moveToFirst();
+            result = cursor.getString(1);
+        }
+        cursor.close();
+        return result;
     }
 
     @Override
