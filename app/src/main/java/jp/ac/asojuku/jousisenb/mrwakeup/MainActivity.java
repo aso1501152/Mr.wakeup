@@ -37,10 +37,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
     private void iniSet() {
+        final Button setButton = (Button)findViewById(R.id.setbutton);
         // Preferenceの初期値設定
         SharedPreferences pref = getSharedPreferences("pref",MODE_WORLD_READABLE|MODE_WORLD_WRITEABLE);
         SharedPreferences.Editor e = pref.edit();
         e.putString("flg","0"); //初期値の設定。0はアラームオフ
+        setButton.setText(R.string.button_start);
         e.commit();
         //初回表示完了
         setState(PREFERENCE_BOOTED);

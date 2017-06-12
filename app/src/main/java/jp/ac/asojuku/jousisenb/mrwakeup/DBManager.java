@@ -50,7 +50,7 @@ public class DBManager extends SQLiteOpenHelper {
         SQLiteCursor cursor = (SQLiteCursor)db.rawQuery(select,null);
         if(cursor.getCount() != 0){
             cursor.moveToFirst();
-            result = cursor.getString(3);//ここでエラー
+            result = cursor.getString(3);
         }
         cursor.close();
         return result;

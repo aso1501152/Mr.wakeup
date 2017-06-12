@@ -28,12 +28,10 @@
 
         android:id="@+id/setbutton"
         android:layout_marginBottom="141dp"
-        android:text="@string/button_start"
         style="@android:style/Widget.Button"
         android:elevation="0dp"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        tools:text="@string/button_start" />
+        android:layout_centerHorizontal="true" />
 
     <TextView
         android:layout_width="wrap_content"
