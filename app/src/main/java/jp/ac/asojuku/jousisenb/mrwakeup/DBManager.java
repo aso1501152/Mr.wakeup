@@ -32,13 +32,13 @@ public class DBManager extends SQLiteOpenHelper {
 
     //ユーザーからセットされた時間を得る
     public String getSetTime(SQLiteDatabase db) {
-        String result = null;
-        String select = "SELECT time FROM tabira";
+        String result = "";
+        String select = "SELECT time FROM tabira WHERE _id = '1'";
 
         SQLiteCursor cursor = (SQLiteCursor)db.rawQuery(select,null);
         if(cursor.getCount() != 0){
             cursor.moveToFirst();
-            result = cursor.getString(1);
+            result = cursor.getString(1);//ここでエラー
         }
         cursor.close();
         return result;
