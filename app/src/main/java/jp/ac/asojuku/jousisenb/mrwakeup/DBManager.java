@@ -12,7 +12,19 @@ import java.io.FileNotFoundException;
  * Created by yabumoto on 2017/06/02.
  */
 
+import android.app.Activity;
+import android.content.ContentValues;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+
 public class DBManager extends SQLiteOpenHelper {
+
+    private static SQLiteDatabase db;
 
     public DBManager(Context context) {
         super(context, "Horiguthi", null, 4);
@@ -26,19 +38,19 @@ public class DBManager extends SQLiteOpenHelper {
                 " day TEXT," +
                 " time TEXT)");
 
-        db.execSQL("INSERT INTO tabira VALUES(1,'08044445555','0101100','1700')");
+        db.execSQL("INSERT INTO tabira VALUES(1,'08044445555','0101100','17:00')");
 
     }
 
     //ユーザーからセットされた時間を得る
     public String getSetTime(SQLiteDatabase db) {
         String result = "";
-        String select = "SELECT time FROM tabira WHERE _id = '1'";
+        String select = "SELECT * FROM tabira WHERE _id = 1";
 
         SQLiteCursor cursor = (SQLiteCursor)db.rawQuery(select,null);
         if(cursor.getCount() != 0){
             cursor.moveToFirst();
-            result = cursor.getString(1);//ここでエラー
+            result = cursor.getString(3);//ここでエラー
         }
         cursor.close();
         return result;
