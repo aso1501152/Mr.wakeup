@@ -13,7 +13,6 @@ public class G002 extends AppCompatActivity {
     private SQLiteDatabase sqlDB;
     DBManager dbm;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

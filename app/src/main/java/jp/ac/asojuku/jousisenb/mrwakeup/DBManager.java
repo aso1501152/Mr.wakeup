@@ -56,8 +56,8 @@ public class DBManager extends SQLiteOpenHelper {
         return result;
     }
 
+    //idが１のデータを全て取り、G002に送る
     public SQLiteCursor selectTime(SQLiteDatabase db){
-
         String selectSQL ="SELECT * FROM tabira WHERE _id=1";
         SQLiteCursor cursor =(SQLiteCursor)db.rawQuery(selectSQL,null);
         return cursor;
