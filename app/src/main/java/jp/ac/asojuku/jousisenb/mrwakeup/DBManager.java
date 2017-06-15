@@ -27,7 +27,7 @@ public class DBManager extends SQLiteOpenHelper {
     private static SQLiteDatabase db;
 
     public DBManager(Context context) {
-        super(context, "Horiguthi", null, 5);
+        super(context, "Horiguthi", null, 4);
     }
 
     @Override
@@ -36,33 +36,14 @@ public class DBManager extends SQLiteOpenHelper {
                 "(_id INTEGER PRIMARY KEY AUTOINCREMENT," +
                 " phone_number TEXT," +
                 " day TEXT," +
-                " set_hour TEXT,"+
-                " set_minitue TEXT)");
+                " time TEXT)");
 
-        db.execSQL("INSERT INTO tabira VALUES(1,'08044445555','0101100','17','00')");
+        db.execSQL("INSERT INTO tabira VALUES(1,'08044445555','0101100','17:00')");
 
     }
 
-    //ユーザーからセットされた時間を得る(時計用)
+    //ユーザーからセットされた時間を得る
     public String getSetTime(SQLiteDatabase db) {
-        String hour = "";
-        String minitue = "";
-        String result = "";
-        String select = "SELECT * FROM tabira WHERE _id = 1";
-
-        SQLiteCursor cursor = (SQLiteCursor)db.rawQuery(select,null);
-        if(cursor.getCount() != 0){
-            cursor.moveToFirst();
-            hour = cursor.getString(3);
-            minitue = cursor.getString(4);
-        }
-        cursor.close();
-        result =  hour + ":" + minitue;
-        return result;
-    }
-
-    //ユーザーからセットされた時間を得る(時間用)
-    public String getSetHour(SQLiteDatabase db) {
         String result = "";
         String select = "SELECT * FROM tabira WHERE _id = 1";
 
@@ -70,20 +51,6 @@ public class DBManager extends SQLiteOpenHelper {
         if(cursor.getCount() != 0){
             cursor.moveToFirst();
             result = cursor.getString(3);
-        }
-        cursor.close();
-        return result;
-    }
-
-    //ユーザーからセットされた時間を得る(時計用)
-    public String getSetMinitue(SQLiteDatabase db) {
-        String result = "";
-        String select = "SELECT * FROM tabira WHERE _id = 1";
-
-        SQLiteCursor cursor = (SQLiteCursor)db.rawQuery(select,null);
-        if(cursor.getCount() != 0){
-            cursor.moveToFirst();
-            result = cursor.getString(4);
         }
         cursor.close();
         return result;
