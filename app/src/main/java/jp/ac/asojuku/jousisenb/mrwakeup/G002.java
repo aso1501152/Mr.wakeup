@@ -47,4 +47,5 @@ public class G002 extends AppCompatActivity {
       editText.setText(bangou);
   }
 
+
 }
