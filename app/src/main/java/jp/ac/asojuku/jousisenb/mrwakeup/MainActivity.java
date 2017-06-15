@@ -7,6 +7,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -36,13 +37,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
+    //初期値設定　Preferenceを0に設定
     private void iniSet() {
         final Button setButton = (Button)findViewById(R.id.setbutton);
         // Preferenceの初期値設定
         SharedPreferences pref = getSharedPreferences("pref",MODE_WORLD_READABLE|MODE_WORLD_WRITEABLE);
         SharedPreferences.Editor e = pref.edit();
-        e.putString("flg","0"); //初期値の設定。0はアラームオフ
-        setButton.setText(R.string.button_start);
+        e.putString("flg","on"); //初期値の設定。0はアラームオフ
+        //setButton.setText(R.string.button_start);]
+        setButton.setText("First");
         e.commit();
         //初回表示完了
         setState(PREFERENCE_BOOTED);
@@ -52,7 +55,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
-    protected void onResume(){
+    protected void onResume() {
         super.onResume();
 
         // DBManager のインスタンス生成
@@ -61,41 +64,53 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String time = dbm.getSetTime(sqlDB);
 
         //時計をクリックしたら設定画面に飛ぶように設定
-        TextView clock = (TextView)findViewById(R.id.setTime);
+        TextView clock = (TextView) findViewById(R.id.setTime);
         clock.setText(time);  //DBから取得したやつをセットしたい
         //TextViewにリスナーをセット
-        clock.setOnClickListener(new View.OnClickListener(){
+        clock.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view){
+            public void onClick(View view) {
                 //時計をタップされたら次の画面を表示
-                Intent intent = new Intent(MainActivity.this,G002.class);
+                Intent intent = new Intent(MainActivity.this, G002.class);
                 startActivity(intent);
             }
         });
-    }
 
-    @Override
-    public void onClick(View v) {
+        //ボタンに関する処理
+        Button setButton = (Button) findViewById(R.id.setbutton);
+        //TextViewにリスナーをセット
+        setButton.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Button setButton = (Button) findViewById(R.id.setbutton);
+                SharedPreferences pref = getSharedPreferences("pref", MODE_WORLD_READABLE | MODE_WORLD_WRITEABLE);
+                //String str = pref.getString("flg", "");
+                SharedPreferences.Editor e = pref.edit();
+                if(pref.getString("flg", "").equals("off")){ //int型で比較させる
+                    Log.v("プリファレンスの値(if)", pref.getString("flg",""));
+                    setButton.setText(R.string.button_stop);    //セットボタンを「ストップ」に書き換え
+                    e.putString("flg","on"); //アラームオン
+                    e.commit();
 
-        final Button setButton = (Button)findViewById(R.id.setbutton);
-        SharedPreferences pref = getSharedPreferences("pref",MODE_WORLD_READABLE|MODE_WORLD_WRITEABLE);
-        String str = pref.getString("flg", "");
 
-        if(str.equals('0')){
-            SharedPreferences.Editor e = pref.edit();
-            e.putString("flg","1"); //1はアラームオン
-            e.commit();
-            setButton.setText(R.string.button_stop);    //セットボタンを「ストップ」に書き換え
-        }else {
-            SharedPreferences.Editor e = pref.edit();
-            e.putString("flg","0"); //0はアラームオフ
-            e.commit();
-            setButton.setText(R.string.button_start);   //セットボタンを「スタート」に書き換え
-        }
+
+                }else{
+                    Log.v("プリファレンスの値(else)", pref.getString("flg",""));
+                    setButton.setText(R.string.button_start);   //セットボタンを「スタート」に書き換え
+                    e.putString("flg","off"); //アラームオフ
+                    e.commit();
+                }
+            }
+        });
     }
     @Override
     protected void onPause() {
         super.onPause();
         sqlDB.close();
+    }
+
+    @Override
+    public void onClick(View v) {
+
     }
 }
