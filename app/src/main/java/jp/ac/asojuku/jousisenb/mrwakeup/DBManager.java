@@ -56,6 +56,14 @@ public class DBManager extends SQLiteOpenHelper {
         return result;
     }
 
+    public SQLiteCursor selectTime(SQLiteDatabase db){
+
+        String selectSQL ="SELECT * FROM tabira WHERE _id=1";
+        SQLiteCursor cursor =(SQLiteCursor)db.rawQuery(selectSQL,null);
+        return cursor;
+
+    }
+
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE tabira");
