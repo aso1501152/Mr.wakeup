@@ -143,7 +143,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     Log.d(TAG, "stopAlarm()");
                     am.cancel(mAlarmSender);
                 }
-
             }
         });
 
