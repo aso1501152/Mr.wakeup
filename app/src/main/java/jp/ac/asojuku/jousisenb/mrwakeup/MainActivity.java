@@ -1,6 +1,9 @@
 package jp.ac.asojuku.jousisenb.mrwakeup;
 
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
+import android.app.AlarmManager;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
@@ -11,13 +14,28 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.TimePicker;
+
+
+import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+    Context c;
+    AlarmManager am;
+    private static final String TAG = MainActivity.class.getSimpleName();
+    private PendingIntent mAlarmSender;
     private SQLiteDatabase sqlDB;
     DBManager dbm;
 
     private static final int PREFERENCE_BOOTED = 1;
+
+    public MainActivity(Context c){
+        // 初期化
+        this.c = c;
+        am = (AlarmManager)c.getSystemService(Context.ALARM_SERVICE);
+        Log.v(TAG,"初期化完了");
+    }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
     @Override
@@ -92,16 +110,43 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     e.putString("flg","on"); //アラームオン
                     e.commit();
 
+                    // アラームを設定する
+                    InnerClass innerClass = new InnerClass();
+                    mAlarmSender = innerClass.getPendingIntent();
 
+                    // DBManager のインスタンス生成
+                    sqlDB = dbm.getWritableDatabase();
+                    String setHour = dbm.getSetHour(sqlDB);
+                    String setMinitue = dbm.getSetMinitue(sqlDB);
+                    int set1 = Integer.parseInt(setHour);
+                    int set2 = Integer.parseInt(setMinitue);
+
+                    // アラーム時間設定
+                    Calendar cal = Calendar.getInstance();
+                    cal.setTimeInMillis(System.currentTimeMillis());
+                    // 設定した時刻をカレンダーに設定
+                    cal.set(Calendar.HOUR_OF_DAY, set1);
+                    cal.set(Calendar.MINUTE, set2);
+                    cal.set(Calendar.SECOND, 0);
+                    cal.set(Calendar.MILLISECOND, 0);
+
+                    am.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), mAlarmSender);
+                    Log.v(TAG, cal.getTimeInMillis()+"ms");
 
                 }else{
                     Log.v("プリファレンスの値(else)", pref.getString("flg",""));
                     setButton.setText(R.string.button_start);   //セットボタンを「スタート」に書き換え
                     e.putString("flg","off"); //アラームオフ
                     e.commit();
+
+                    // アラームのキャンセル
+                    Log.d(TAG, "stopAlarm()");
+                    am.cancel(mAlarmSender);
                 }
+
             }
         });
+
     }
     @Override
     protected void onPause() {
@@ -112,5 +157,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
 
+    }
+
+    private class InnerClass {
+        private PendingIntent getPendingIntent() {
+            // アラーム時に起動するアプリケーションを登録
+            Intent intent = new Intent(c, AlarmService.class);
+            PendingIntent pendingIntent = PendingIntent.getService(c, PendingIntent.FLAG_ONE_SHOT, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+            return pendingIntent;
+        }
     }
 }
