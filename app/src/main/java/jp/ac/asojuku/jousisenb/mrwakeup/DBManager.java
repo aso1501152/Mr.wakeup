@@ -62,6 +62,14 @@ public class DBManager extends SQLiteOpenHelper {
         return result;
     }
 
+
+    public SQLiteCursor selectTime(SQLiteDatabase db){
+        String selectSQL ="SELECT * FROM tabira WHERE _id=1";
+        SQLiteCursor cursor =(SQLiteCursor)db.rawQuery(selectSQL,null);
+        return cursor;
+    }
+
+
     //ユーザーからセットされた時間を得る
     public String getSetHour(SQLiteDatabase db) {
         String result = "";
