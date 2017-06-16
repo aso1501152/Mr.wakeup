@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 
 import java.util.Calendar;
@@ -110,16 +111,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     e.putString("flg","on"); //アラームオン
                     e.commit();
 
-                    // アラームを設定する
-                    InnerClass innerClass = new InnerClass();
-                    mAlarmSender = innerClass.getPendingIntent();
-
                     // DBManager のインスタンス生成
                     sqlDB = dbm.getWritableDatabase();
                     String setHour = dbm.getSetHour(sqlDB);
                     String setMinitue = dbm.getSetMinitue(sqlDB);
                     int set1 = Integer.parseInt(setHour);
                     int set2 = Integer.parseInt(setMinitue);
+
+                    //アラーム受け取りクラスの設定
+                    Intent intent = new Intent(getApplicationContext(), AlarmBroadcastReceiver.class);
+                    PendingIntent pending = PendingIntent.getBroadcast(getApplicationContext(), 0, intent, 0);
 
                     // アラーム時間設定
                     Calendar cal = Calendar.getInstance();
@@ -130,8 +131,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     cal.set(Calendar.SECOND, 0);
                     cal.set(Calendar.MILLISECOND, 0);
 
-                    am.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), mAlarmSender);
+                    //設定時刻にアラームをセット
+                    am.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), pending);
                     Log.v(TAG, cal.getTimeInMillis()+"ms");
+
+                    //トースト表示
+                    Toast.makeText(getApplicationContext(), "アラームセット", Toast.LENGTH_SHORT).show();
 
                 }else{
                     Log.v("プリファレンスの値(else)", pref.getString("flg",""));
@@ -156,14 +161,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
 
-    }
-
-    private class InnerClass {
-        private PendingIntent getPendingIntent() {
-            // アラーム時に起動するアプリケーションを登録
-            Intent intent = new Intent(c, AlarmService.class);
-            PendingIntent pendingIntent = PendingIntent.getService(c, PendingIntent.FLAG_ONE_SHOT, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-            return pendingIntent;
-        }
     }
 }
