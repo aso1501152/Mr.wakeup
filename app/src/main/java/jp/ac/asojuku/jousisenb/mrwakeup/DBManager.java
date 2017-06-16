@@ -64,6 +64,12 @@ public class DBManager extends SQLiteOpenHelper {
 
     }
 
+    //変更処理
+    public void henkou(SQLiteDatabase db,String number,String youbi,String times){
+        db.execSQL("UPDATE tabira SET phone_number="+number+" day="+youbi+" time="+times+" WHERE _id=1 ");
+    }
+
+    //データベース削除
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE tabira");
