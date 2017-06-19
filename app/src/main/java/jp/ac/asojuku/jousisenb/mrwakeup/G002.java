@@ -72,8 +72,9 @@ public class G002 extends AppCompatActivity {
                 String text =editText.getText().toString();
                 String text2=editText2.getText().toString();
 
+                String hairetu[]={text,text2};
 
-
+                dbm.henkou(sqlDB,hairetu);
 
             }
         });
@@ -106,4 +107,3 @@ public class G002 extends AppCompatActivity {
 
     }
 
-}

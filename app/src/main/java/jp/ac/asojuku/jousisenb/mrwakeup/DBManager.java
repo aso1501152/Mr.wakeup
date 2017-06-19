@@ -99,8 +99,13 @@ public class DBManager extends SQLiteOpenHelper {
     }
 
     //変更処理
-    public void henkou(SQLiteDatabase db,String number,String youbi,String times){
-        db.execSQL("UPDATE tabira SET phone_number="+number+" day="+youbi+" time="+times+" WHERE _id=1 ");
+    public void henkou(SQLiteDatabase db,String hairetu[]){
+
+        String text=hairetu[0];
+        String text2=hairetu[2];
+
+
+        db.execSQL("UPDATE tabira SET phone_number="+text+" time="+text2+" WHERE _id=1 ");
     }
 
     //データベース削除
