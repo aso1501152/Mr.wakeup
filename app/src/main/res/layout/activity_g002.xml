@@ -32,17 +32,6 @@
         android:layout_centerHorizontal="true"
         android:id="@+id/buttondayo" />
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="number"
-        android:ems="10"
-        android:id="@+id/EditText"
-        android:layout_above="@+id/buttondayo"
-        android:layout_centerHorizontal="true"
-        android:background="#FFFFFF"
-        />
-
 
     <LinearLayout
         android:orientation="horizontal"
@@ -140,9 +129,22 @@
         android:id="@+id/EditText2"
         android:background="#FFFFFF"
         android:layout_alignParentTop="true"
-        android:layout_alignLeft="@+id/EditText"
-        android:layout_alignStart="@+id/EditText"
-        android:layout_marginTop="171dp" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="132dp" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="10"
+        android:id="@+id/EditText"
+        android:background="#FFFFFF"
+        android:layout_marginTop="80dp"
+        android:layout_below="@+id/EditText2"
+        android:layout_alignLeft="@+id/EditText2"
+        android:layout_alignStart="@+id/EditText2"
+        android:layout_marginLeft="18dp"
+        android:layout_marginStart="18dp" />
 
 
 </RelativeLayout>

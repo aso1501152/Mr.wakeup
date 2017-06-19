@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -24,6 +25,9 @@ public class G002 extends AppCompatActivity {
     private SQLiteDatabase sqlDB;
     DBManager dbm;
     String youbi;
+    Button button;
+    EditText editText;
+    EditText editText2;
 
     private void setTimes(ListView List){
         SQLiteCursor cursor=null;
@@ -56,29 +60,49 @@ public class G002 extends AppCompatActivity {
         setContentView(R.layout.activity_g002);
 
         //チェックボックスのデータを読み出す
-        final CheckBox checkBox =(CheckBox)findViewById(R.id.checkBox);
-        checkBox.setOnClickListener(new View.OnClickListener(){
+        //final CheckBox checkBox =(CheckBox)findViewById(R.id.checkBox);
+        //checkBox.setOnClickListener(new View.OnClickListener(){
+
+
+        button = (Button) findViewById(R.id.setbutton);
+        button.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                if (checkBox.isChecked()==true){
-                    //trueなら1を並べる
-                    youbi +="1";
-                }else {
-                    //falseなら０を入れる
-                    youbi +="0";
-                }
+                String text =editText.getText().toString();
+                String text2=editText2.getText().toString();
+
+
+
+
             }
         });
 
-    }
+
+           // @Override
+           // public void onClick(View v) {
 
 
-    public void onClick_Buttondayo(View view){
-        EditText editText =(EditText)findViewById(R.id.EditText);
-        String text=editText.getText().toString();
+                //if (checkBox.isChecked()==true){
+                    //trueなら1を並べる
+                   // youbi +="1";
+               // }else {
+               //     //falseなら０を入れる
+                   // youbi +="0";
+                }
+           // }
+      //  });
 
 
+
+
+
+
+        //EditText editText =(EditText)findViewById(R.id.EditText);
+       // String text=editText.getText().toString();
+
+       // EditText editText2 =(EditText)findViewById(R.id.EditText2);
+       // String text2 =editText.getText().toString();
 
     }
 
