@@ -63,8 +63,7 @@ public class G002 extends AppCompatActivity {
         //final CheckBox checkBox =(CheckBox)findViewById(R.id.checkBox);
         //checkBox.setOnClickListener(new View.OnClickListener(){
 
-
-        button = (Button) findViewById(R.id.setbutton);
+        button = (Button) findViewById(R.id.buttondayo);
         button.setOnClickListener(new View.OnClickListener() {
 
             @Override
