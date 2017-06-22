@@ -62,6 +62,14 @@ public class DBManager extends SQLiteOpenHelper {
         return result;
     }
 
+
+    public SQLiteCursor selectTime(SQLiteDatabase db){
+        String selectSQL ="SELECT * FROM tabira WHERE _id=1";
+        SQLiteCursor cursor =(SQLiteCursor)db.rawQuery(selectSQL,null);
+        return cursor;
+    }
+
+
     //ユーザーからセットされた時間を得る
     public String getSetHour(SQLiteDatabase db) {
         String result = "";
@@ -90,6 +98,17 @@ public class DBManager extends SQLiteOpenHelper {
         return result;
     }
 
+    //変更処理
+    public void henkou(SQLiteDatabase db,String hairetu[]){
+
+        String text=hairetu[0];
+        String text2=hairetu[2];
+
+
+        db.execSQL("UPDATE tabira SET phone_number="+text+" time="+text2+" WHERE _id=1 ");
+    }
+
+    //データベース削除
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE tabira");
