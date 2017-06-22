@@ -20,7 +20,8 @@ import android.widget.Toast;
 
 import java.util.Calendar;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity  implements View.OnClickListener{
+
 
     Context c;
     AlarmManager am;
@@ -31,21 +32,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private static final int PREFERENCE_BOOTED = 1;
 
-    public MainActivity(Context c){
-        // 初期化
-        this.c = c;
-        am = (AlarmManager)c.getSystemService(Context.ALARM_SERVICE);
-        Log.v(TAG,"初期化完了");
-    }
+    @Override
+    public void onClick(View v) {
 
+    }
+    /*
+    public void onCreate(){
+        Log.v("TAG","テスト");
+    }
+/**/
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //setContentView(R.layout.activity_g002);
+        /******
+        // 初期化
+        this.c = c;
+        Log.v(TAG,"初期化前");
+        am = (AlarmManager)c.getSystemService(Context.ALARM_SERVICE);
+        Log.v(TAG,"初期化完了");
 
+        //setContentView(R.layout.activity_g002);
+***********/
         //Buttonを認識させる
         final Button setButton = (Button)findViewById(R.id.setbutton);
         // btn1のクリックイベント時の場所を指定(今回はメインページ指定なので「this」を指定している)
@@ -99,14 +109,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button setButton = (Button) findViewById(R.id.setbutton);
         //TextViewにリスナーをセット
         setButton.setOnClickListener(new Button.OnClickListener() {
+
+
             @Override
             public void onClick(View view) {
                 Button setButton = (Button) findViewById(R.id.setbutton);
                 SharedPreferences pref = getSharedPreferences("pref", MODE_WORLD_READABLE | MODE_WORLD_WRITEABLE);
                 //String str = pref.getString("flg", "");
                 SharedPreferences.Editor e = pref.edit();
+
                 if(pref.getString("flg", "").equals("off")){ //int型で比較させる
                     Log.v("プリファレンスの値(if)", pref.getString("flg",""));
+
                     setButton.setText(R.string.button_stop);    //セットボタンを「ストップ」に書き換え
                     e.putString("flg","on"); //アラームオン
                     e.commit();
@@ -118,25 +132,42 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     int set1 = Integer.parseInt(setHour);
                     int set2 = Integer.parseInt(setMinitue);
 
-                    //アラーム受け取りクラスの設定
-                    Intent intent = new Intent(getApplicationContext(), AlarmBroadcastReceiver.class);
-                    PendingIntent pending = PendingIntent.getBroadcast(getApplicationContext(), 0, intent, 0);
+                    Log.v("a","テスト2");
+
+                    /**************
+                    // アラームを設定する
+                    mAlarmSender = getPendingIntent();
+
+                     ********/
 
                     // アラーム時間設定
                     Calendar cal = Calendar.getInstance();
                     cal.setTimeInMillis(System.currentTimeMillis());
-                    // 設定した時刻をカレンダーに設定
+
+                    // 設定した時刻をカレンダーに設定(今は手動で設定するためコメントアウト)
+
                     cal.set(Calendar.HOUR_OF_DAY, set1);
                     cal.set(Calendar.MINUTE, set2);
                     cal.set(Calendar.SECOND, 0);
                     cal.set(Calendar.MILLISECOND, 0);
 
+
+/******************************************************************
+                    cal.set(Calendar.HOUR_OF_DAY, 14);
+                    cal.set(Calendar.MINUTE, 0);
+                    cal.set(Calendar.SECOND, 0);
+                    cal.set(Calendar.MILLISECOND, 0);
+
+
                     //設定時刻にアラームをセット
-                    am.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), pending);
+                    am.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), mAlarmSender);
                     Log.v(TAG, cal.getTimeInMillis()+"ms");
+
 
                     //トースト表示
                     Toast.makeText(getApplicationContext(), "アラームセット", Toast.LENGTH_SHORT).show();
+
+ ****/
 
                 }else{
                     Log.v("プリファレンスの値(else)", pref.getString("flg",""));
@@ -146,7 +177,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                     // アラームのキャンセル
                     Log.d(TAG, "stopAlarm()");
-                    am.cancel(mAlarmSender);
+                   /// am.cancel(mAlarmSender);
                 }
             }
         });
@@ -157,9 +188,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onPause();
         sqlDB.close();
     }
-
+/****
     @Override
     public void onClick(View v) {
 
     }
+    private PendingIntent getPendingIntent() {
+        // アラーム時に起動するアプリケーションを登録
+        Intent intent = new Intent(c, AlarmService.class);
+        PendingIntent pendingIntent = PendingIntent.getService(c, PendingIntent.FLAG_ONE_SHOT, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        return pendingIntent;
+    }
+ **********************************************/
 }

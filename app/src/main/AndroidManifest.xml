@@ -11,6 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -18,12 +19,16 @@
             </intent-filter>
         </activity>
 
-        <receiver
-            android:name=".AlarmBroadcastReceiver"
-            android:process=":remote" />
+        <receiver android:name=".AlarmBroadcastReceiver" >
+            <intent-filter>
+                <action android:name="AlarmAction"></action>
+            </intent-filter>
+        </receiver>
+
+        <service android:name=".AlarmService" ></service>
 
         <activity android:name=".G002" />
-        <activity android:name=".AlarmBroadcastReceiver" />
+
         <activity android:name=".AlarmNortificationActivity"></activity>
     </application>
 
