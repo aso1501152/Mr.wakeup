@@ -37,7 +37,7 @@ public class DBManager extends SQLiteOpenHelper {
                 " phone_number TEXT," +
                 " day TEXT," +
                 " setHour TEXT,"   +
-                " setMinitue)");
+                " setMinitue TEXT )");
 
         db.execSQL("INSERT INTO tabira VALUES(1,'08044445555','0101100','17','00')");
 
