@@ -102,11 +102,10 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
     //時計をタップされたら次の画面を表示
     Intent intent = new Intent(MainActivity.this, G002.class);
     startActivity(intent);
-    this.finish();
-   }
 
-      private void finish() {
-      }
+       finish();
+       Log.v("TAG","フィニッシュしました");
+   }
 
 
   });
