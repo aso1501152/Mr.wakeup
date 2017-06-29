@@ -16,6 +16,7 @@ import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import java.util.Timer;
 
@@ -24,34 +25,31 @@ public class G002 extends AppCompatActivity {
 
     private SQLiteDatabase sqlDB;
     DBManager dbm;
-    String youbi;
     Button button;
-    EditText editText;
-    EditText editText2;
 
     private void setTimes(ListView List){
-        SQLiteCursor cursor=null;
+      //  SQLiteCursor cursor=null;
 
         //データベース空間オープン
-        dbm =new DBManager(this);
-        sqlDB =dbm.getWritableDatabase();
+        //dbm =new DBManager(this);
+        //sqlDB =dbm.getWritableDatabase();
 
         //DBManager.javaで定義したメソッドを呼び出し
-        cursor= dbm.selectTime(sqlDB);
+       // cursor= dbm.selectTime(sqlDB);
 
         //formの配列に入れる
-        String[]form={"phrase"};
+        //String[]form={"phrase"};
 
-        String zikan;
-        String dayw;
-        String bangou;
+       // String zikan;
+       // String dayw;
+        //String bangou;
 
         //時間を入れる
-        zikan = form[3];
+       // zikan = form[3];
         //曜日を入れる
-        dayw=form[2];
+       // dayw=form[2];
         //番号を入れる
-        bangou=form[1];
+       // bangou=form[1];
     }
 
     @Override
@@ -62,18 +60,29 @@ public class G002 extends AppCompatActivity {
         //チェックボックスのデータを読み出す
         //final CheckBox checkBox =(CheckBox)findViewById(R.id.checkBox);
         //checkBox.setOnClickListener(new View.OnClickListener(){
+        dbm =new DBManager(this);
+        sqlDB =dbm.getWritableDatabase();
 
         button = (Button) findViewById(R.id.buttondayo);
         button.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                String text =editText.getText().toString();
-                String text2=editText2.getText().toString();
 
-                String hairetu[]={text,text2};
+                final EditText a = (EditText) findViewById(R.id.abc);
+                final EditText b = (EditText) findViewById(R.id.bca);
+                final EditText c = (EditText) findViewById(R.id.cab);
 
-                dbm.henkou(sqlDB,hairetu);
+
+                String h =a.getText().toString();
+                String m=b.getText().toString();
+                String p=c.getText().toString();
+
+
+                String hairetu[]= {h,m,p};
+                dbm.sethenkou(sqlDB,hairetu);
+
+                Toast.makeText(getApplicationContext(),"登録完了",Toast.LENGTH_LONG).show();
 
             }
         });
@@ -87,7 +96,7 @@ public class G002 extends AppCompatActivity {
                     //trueなら1を並べる
                    // youbi +="1";
                // }else {
-               //     //falseなら０を入れる
+               //    //falseなら０を入れる
                    // youbi +="0";
                 }
            // }

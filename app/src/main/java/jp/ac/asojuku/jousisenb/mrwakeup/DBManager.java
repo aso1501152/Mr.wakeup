@@ -22,7 +22,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-public class DBManager extends SQLiteOpenHelper {
+public class DBManager extends SQLiteOpenHelper  {
 
     private static SQLiteDatabase db;
 
@@ -99,13 +99,14 @@ public class DBManager extends SQLiteOpenHelper {
     }
 
     //変更処理
-    public void henkou(SQLiteDatabase db,String hairetu[]){
+    public void sethenkou(SQLiteDatabase db,String hairetu[]){
 
-        String text=hairetu[0];
-        String text2=hairetu[2];
+        String h=hairetu[0];
+        String m=hairetu[1];
+        String p=hairetu[2];
 
 
-        db.execSQL("UPDATE tabira SET phone_number="+text+" time="+text2+" WHERE _id=1 ");
+        db.execSQL("UPDATE tabira SET phone_number="+p+", setHour="+h+", setMinitue="+m+" WHERE _id=1 ");
     }
 
     //データベース削除
