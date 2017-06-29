@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.WindowManager;
 import android.widget.Toast;
 
@@ -11,9 +12,6 @@ public class AlarmNortificationActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_alarm_nortification);
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.alarm_notification);
 
@@ -24,7 +22,7 @@ public class AlarmNortificationActivity extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON |
                 WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
-        Toast.makeText(getApplicationContext(), "アラームスタート！", Toast.LENGTH_LONG).show();
+        Log.e("TAG","画面起動");
         Intent intent = new Intent(AlarmNortificationActivity.this, G002.class);
         startActivity(intent);
         AlarmNortificationActivity.this.finish();
