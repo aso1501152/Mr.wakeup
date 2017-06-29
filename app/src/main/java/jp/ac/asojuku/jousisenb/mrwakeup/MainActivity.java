@@ -1,13 +1,16 @@
 package jp.ac.asojuku.jousisenb.mrwakeup;
 
 import android.app.PendingIntent;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.app.AlarmManager;
+import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -23,7 +26,6 @@ import java.util.Calendar;
 public class MainActivity extends AppCompatActivity  implements View.OnClickListener{
 
 
- Context c;
  AlarmManager am;
  private static final String TAG = MainActivity.class.getSimpleName();
  private PendingIntent mAlarmSender;
@@ -32,52 +34,45 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
 
  private static final int PREFERENCE_BOOTED = 1;
 
- @Override
- public void onClick(View v) {
-
- }
- /*
- public void onCreate(){
-     Log.v("TAG","テスト");
- }
-/**/
  @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
+
  @Override
  public void onCreate(Bundle savedInstanceState) {
   super.onCreate(savedInstanceState);
   setContentView(R.layout.activity_main);
 
-  /******
-   // 初期化
-   this.c = c;
-   Log.v(TAG,"初期化前");
-   am = (AlarmManager)c.getSystemService(Context.ALARM_SERVICE);
-   Log.v(TAG,"初期化完了");
+ //初期化しなくてもいいならエラーになるのでアウト
+  Log.e("TAG","初期化開始");
+  am = (AlarmManager)MainActivity.this.getSystemService(Context.ALARM_SERVICE);
+  Log.e("TAG","初期化終了");
 
-   //setContentView(R.layout.activity_g002);
-   ***********/
+
   //Buttonを認識させる
   final Button alarmSetButton = (Button)findViewById(R.id.alarmSetButton);
   // btn1のクリックイベント時の場所を指定(今回はメインページ指定なので「this」を指定している)
   alarmSetButton.setOnClickListener(this);
 
-  // 初期化メソッド呼び出し
+  // プリファレンスの初期値メソッド呼び出し
   iniSet();
+  Log.e("TAG","初期化OK");
  }
 
  @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
- //初期値設定　Preferenceを0に設定
+ //初期値設定
  private void iniSet() {
+  Log.e("TAG","iniSet入った");
   final Button alarmSetButton = (Button)findViewById(R.id.alarmSetButton);
   // Preferenceの初期値設定
+  Log.e("TAG","プリファレンス設定開始");
   SharedPreferences pref = getSharedPreferences("pref",MODE_WORLD_READABLE|MODE_WORLD_WRITEABLE);
   SharedPreferences.Editor e = pref.edit();
-  e.putString("flg","on"); //初期値の設定。0はアラームオフ
-  //alarmSetButton.setText(R.string.button_start);]
-  alarmSetButton.setText("First");
+  e.putString("flg","off"); //初期値の設定
+  //alarmSetButton.setText(R.string.button_start);
+  alarmSetButton.setText("START");
   e.commit();
   //初回表示完了
   setState(PREFERENCE_BOOTED);
+  Log.e("TAG","プリファレンス初期化OK");
  }
 
  private void setState(int preferenceBooted) {
@@ -102,12 +97,7 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
     //時計をタップされたら次の画面を表示
     Intent intent = new Intent(MainActivity.this, G002.class);
     startActivity(intent);
-
-       finish();
-       Log.v("TAG","フィニッシュしました");
    }
-
-
   });
 
   //ボタンに関する処理
@@ -120,15 +110,7 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
    public void onClick(View view) {
     Button alarmSetButton = (Button) findViewById(R.id.alarmSetButton);
     SharedPreferences pref = getSharedPreferences("pref", MODE_WORLD_READABLE | MODE_WORLD_WRITEABLE);
-    //String str = pref.getString("flg", "");
     SharedPreferences.Editor e = pref.edit();
-
-    if(pref.getString("flg", "").equals("off")){ //int型で比較させる
-     Log.v("プリファレンスの値(if)", pref.getString("flg",""));
-
-     alarmSetButton.setText(R.string.button_stop);    //セットボタンを「ストップ」に書き換え
-     e.putString("flg","on"); //アラームオン
-     e.commit();
 
      // DBManager のインスタンス生成
      sqlDB = dbm.getWritableDatabase();
@@ -137,72 +119,125 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
      int set1 = Integer.parseInt(setHour);
      int set2 = Integer.parseInt(setMinitue);
 
-     Log.v("a","テスト2");
-
-     /**************
-      // アラームを設定する
-      mAlarmSender = getPendingIntent();
-
-      ********/
-
      // アラーム時間設定
      Calendar cal = Calendar.getInstance();
      cal.setTimeInMillis(System.currentTimeMillis());
 
      // 設定した時刻をカレンダーに設定(今は手動で設定するためコメントアウト)
-
+/******************************************************************
      cal.set(Calendar.HOUR_OF_DAY, set1);
      cal.set(Calendar.MINUTE, set2);
      cal.set(Calendar.SECOND, 0);
      cal.set(Calendar.MILLISECOND, 0);
+ */
 
+    int alarmHour = 10;
+    int alarmMinitue = 45;
 
-/******************************************************************
- cal.set(Calendar.HOUR_OF_DAY, 14);
- cal.set(Calendar.MINUTE, 0);
+ cal.set(Calendar.HOUR_OF_DAY, alarmHour);
+ cal.set(Calendar.MINUTE, alarmMinitue);
  cal.set(Calendar.SECOND, 0);
  cal.set(Calendar.MILLISECOND, 0);
+    // 過去だったら明日にする
+    if(cal.getTimeInMillis() < System.currentTimeMillis()){
+     cal.add(Calendar.DAY_OF_YEAR, 1);
+    }
+
+    if(pref.getString("flg", "").equals("off")){
+     Log.e("プリファレンスの値(if)", pref.getString("flg",""));
+
+     alarmSetButton.setText(R.string.button_stop);    //セットボタンを「ストップ」に書き換え
+     e.putString("flg","on"); //アラームオン
+     e.commit();
+
+     // アラームを設定する
+
+     //メモ：第二引数を被らないものにする
+     mAlarmSender = PendingIntent.getService(MainActivity.this, 777, new Intent(MainActivity.this, AlarmService.class), PendingIntent.FLAG_UPDATE_CURRENT);
+
+     am.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), mAlarmSender);
+     Log.e("TAG","アラームセット完了");
+     Toast.makeText(MainActivity.this, String.format("%02d時%02d分にアラームをセットしました", alarmHour, alarmMinitue), Toast.LENGTH_LONG).show();
 
 
- //設定時刻にアラームをセット
- am.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), mAlarmSender);
- Log.v(TAG, cal.getTimeInMillis()+"ms");
+     //doBindService();
+     //Log.e("TAG","Bind接続開始");
 
-
- //トースト表示
- Toast.makeText(getApplicationContext(), "アラームセット", Toast.LENGTH_SHORT).show();
-
- ****/
+     //トースト表示
+     //Toast.makeText(MainActivity.this, "アラームセット", Toast.LENGTH_LONG).show();
 
     }else{
-     Log.v("プリファレンスの値(else)", pref.getString("flg",""));
+     Log.e("プリファレンスの値(else)", pref.getString("flg",""));
      alarmSetButton.setText(R.string.button_start);   //セットボタンを「スタート」に書き換え
      e.putString("flg","off"); //アラームオフ
      e.commit();
 
      // アラームのキャンセル
-     Log.d(TAG, "stopAlarm()");
-     ///// am.cancel(mAlarmSender);
+     Log.e("TAG", "stopAlarm()");
+     doUnbindService();
     }
    }
   });
 
  }
- @Override
- protected void onPause() {
-  super.onPause();
-  sqlDB.close();
+
+ PendingIntent getPendingIntent() {
+  Log.e("TAG","getPendingIntent入った");
+  // アラーム時に起動するアプリケーションを登録
+  Intent intent = new Intent(MainActivity.this, AlarmService.class);
+  Log.e("TAG","getPendingIntent入った2");
+  PendingIntent pendingIntent = PendingIntent.getService(MainActivity.this, PendingIntent.FLAG_ONE_SHOT, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+  Log.e("TAG","getPendingIntent入った3");
+  return pendingIntent;
  }
-/****
+
+
+ //取得したServiceの保存
+ private AlarmService mBoundService;
+ private boolean mIsBound;
+
+ private ServiceConnection mConnection = new ServiceConnection() {
+  public void onServiceConnected(ComponentName className, IBinder service) {
+
+   // サービスとの接続確立時に呼び出される
+   //Toast.makeText(MainActivity.this, "Activity:onServiceConnected",Toast.LENGTH_SHORT).show();
+
+   // サービスにはIBinder経由で#getService()してダイレクトにアクセス可能
+   mBoundService = ((AlarmService.ServiceBinder)service).getService();
+
+   //必要であればmBoundServiceを使ってバインドしたサービスへの制御を行う
+  }
+
+  public void onServiceDisconnected(ComponentName className) {
+   // サービスとの切断(異常系処理)
+   // プロセスのクラッシュなど意図しないサービスの切断が発生した場合に呼ばれる。
+   mBoundService = null;
+   Toast.makeText(MainActivity.this, "Activity:onServiceDisconnected",
+           Toast.LENGTH_SHORT).show();
+  }
+ };
+
+ void doBindService() {
+  //サービスとの接続を確立する。明示的にServiceを指定
+  //(特定のサービスを指定する必要がある。他のアプリケーションから知ることができない = ローカルサービス)
+  bindService(new Intent(MainActivity.this, AlarmService.class), mConnection, Context.BIND_AUTO_CREATE);
+  mIsBound = true;
+ }
+
+ void doUnbindService() {
+  if (mIsBound) {
+   // コネクションの解除
+   unbindService(mConnection);
+   mIsBound = false;
+  }
+ }
+
  @Override
  public void onClick(View v) {
 
  }
- private PendingIntent getPendingIntent() {
- // アラーム時に起動するアプリケーションを登録
- Intent intent = new Intent(c, AlarmService.class);
- PendingIntent pendingIntent = PendingIntent.getService(c, PendingIntent.FLAG_ONE_SHOT, intent, PendingIntent.FLAG_UPDATE_CURRENT);
- return pendingIntent;
+
+ public void OnUnbindService(){
+
  }
- **********************************************/
 }
