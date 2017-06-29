@@ -123,21 +123,21 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
      Calendar cal = Calendar.getInstance();
      cal.setTimeInMillis(System.currentTimeMillis());
 
-     // 設定した時刻をカレンダーに設定(今は手動で設定するためコメントアウト)
-/******************************************************************
+     // 設定した時刻をカレンダーに設定
+
      cal.set(Calendar.HOUR_OF_DAY, set1);
      cal.set(Calendar.MINUTE, set2);
      cal.set(Calendar.SECOND, 0);
      cal.set(Calendar.MILLISECOND, 0);
- */
 
+/******************
     int alarmHour = 10;
     int alarmMinitue = 45;
-
  cal.set(Calendar.HOUR_OF_DAY, alarmHour);
  cal.set(Calendar.MINUTE, alarmMinitue);
  cal.set(Calendar.SECOND, 0);
  cal.set(Calendar.MILLISECOND, 0);
+ */
     // 過去だったら明日にする
     if(cal.getTimeInMillis() < System.currentTimeMillis()){
      cal.add(Calendar.DAY_OF_YEAR, 1);
@@ -157,7 +157,7 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
 
      am.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), mAlarmSender);
      Log.e("TAG","アラームセット完了");
-     Toast.makeText(MainActivity.this, String.format("%02d時%02d分にアラームをセットしました", alarmHour, alarmMinitue), Toast.LENGTH_LONG).show();
+     Toast.makeText(MainActivity.this, String.format("%02d時%02d分にアラームをセットしました", set1, set2), Toast.LENGTH_LONG).show();
 
 
      //doBindService();
