@@ -155,12 +155,11 @@
 
     <TimePicker
         android:layout_width="wrap_content"
-        android:timePickerMode="spinner"
+        android:timePickerMode="clock"
         android:layout_height="wrap_content"
         android:id="@+id/timePicker2"
-        android:layout_marginTop="76dp"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_alignParentRight="true" />
 
 
 </RelativeLayout>
