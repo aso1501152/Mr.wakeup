@@ -125,31 +125,19 @@
         android:layout_height="wrap_content"
         android:inputType="number"
         android:ems="10"
-        android:id="@+id/cab"
-        android:background="#FFFFFF"
-        android:layout_marginTop="80dp"
-        android:layout_marginLeft="18dp"
-        android:layout_marginStart="18dp" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="number"
-        android:ems="10"
         android:id="@+id/abc"
         android:background="#FFFFFF"
-        android:layout_marginBottom="43dp" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="number"
-        android:ems="10"
-        android:id="@+id/bca"
-        android:background="#FFFFFF"
-        android:layout_marginTop="170dp"
-        android:layout_alignParentTop="true"
+        android:layout_marginBottom="21dp"
+        android:layout_above="@+id/buttondayo"
         android:layout_centerHorizontal="true" />
+
+    <TimePicker
+        android:layout_width="wrap_content"
+        android:timePickerMode="clock"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:id="@+id/timePicker2" />
 
 
 </RelativeLayout>
