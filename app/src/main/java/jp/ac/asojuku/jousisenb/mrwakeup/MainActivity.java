@@ -1,5 +1,6 @@
 package jp.ac.asojuku.jousisenb.mrwakeup;
 
+import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.ComponentName;
 import android.content.Context;
@@ -23,7 +24,8 @@ import android.widget.Toast;
 
 import java.util.Calendar;
 
-public class MainActivity extends AppCompatActivity  implements View.OnClickListener{
+//public class MainActivity extends AppCompatActivity  implements View.OnClickListener{
+public class MainActivity extends Activity implements View.OnClickListener{
 
 
  AlarmManager am;
