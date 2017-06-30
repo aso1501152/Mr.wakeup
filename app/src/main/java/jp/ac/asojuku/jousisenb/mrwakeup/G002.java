@@ -64,7 +64,6 @@ public class G002 extends AppCompatActivity {
         dbm =new DBManager(this);
         sqlDB =dbm.getWritableDatabase();
         timePicker = (TimePicker) findViewById(R.id.timePicker);
-        timePicker.setIs24HourView(true);
 
         button = (Button) findViewById(R.id.buttondayo);
         button.setOnClickListener(new View.OnClickListener() {
@@ -74,11 +73,10 @@ public class G002 extends AppCompatActivity {
 
                 final EditText c = (EditText) findViewById(R.id.cab);
 
-
                 TimePicker timePicker1 =(TimePicker)findViewById(R.id.timePicker);
+                int hour =timePicker1.getCurrentHour();
+                int minutu =timePicker1.getCurrentMinute();
 
-                int hour =timePicker1.getHour();
-                int minutu =timePicker1.getMinute();
 
                 String h1 = Integer.toString(hour);
                 String m1 =Integer.toString(minutu);
