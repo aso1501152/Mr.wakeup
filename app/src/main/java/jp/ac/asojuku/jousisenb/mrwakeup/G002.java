@@ -180,7 +180,8 @@ public class G002 extends AppCompatActivity {
                 String p=c.getText().toString();
 
 
-                String hairetu[]= {h1,m1,p};
+                String youbi2 =youbi1[0]+youbi1[1]+youbi1[2]+youbi1[3]+youbi1[4]+youbi1[5]+youbi1[6];
+                String hairetu[]= {h1,m1,p,youbi2};
                 dbm.sethenkou(sqlDB,hairetu);
 
                 Toast.makeText(getApplicationContext(),youbi1[0]+youbi1[1]+youbi1[2]+youbi1[3]+youbi1[4]+youbi1[5]+youbi1[6]+"登録完了",Toast.LENGTH_LONG).show();

@@ -104,9 +104,10 @@ public class DBManager extends SQLiteOpenHelper  {
         String h=hairetu[0];
         String m=hairetu[1];
         String p=hairetu[2];
+        String y=hairetu[3];
 
 
-        db.execSQL("UPDATE tabira SET phone_number="+p+", setHour="+h+", setMinitue="+m+" WHERE _id=1 ");
+        db.execSQL("UPDATE tabira SET phone_number="+p+", setHour="+h+", setMinitue="+m+", day="+y+" WHERE _id=1 ");
     }
 
     //データベース削除
