@@ -21,6 +21,7 @@ import android.widget.Toast;
 import java.util.Timer;
 
 public class G002 extends AppCompatActivity {
+    TimePicker timePicker;
 
 
     private SQLiteDatabase sqlDB;
@@ -62,6 +63,8 @@ public class G002 extends AppCompatActivity {
         //checkBox.setOnClickListener(new View.OnClickListener(){
         dbm =new DBManager(this);
         sqlDB =dbm.getWritableDatabase();
+        timePicker = (TimePicker) findViewById(R.id.timePicker);
+        timePicker.setIs24HourView(true);
 
         button = (Button) findViewById(R.id.buttondayo);
         button.setOnClickListener(new View.OnClickListener() {
@@ -74,12 +77,18 @@ public class G002 extends AppCompatActivity {
                 final EditText c = (EditText) findViewById(R.id.cab);
 
 
-                String h =a.getText().toString();
-                String m=b.getText().toString();
+                TimePicker timePicker1 =(TimePicker)findViewById(R.id.timePicker);
+
+                int hour =timePicker1.getCurrentHour();
+                int minutu =timePicker1.getCurrentHour();
+
+                String h1 = Integer.toString(hour);
+                String m1 =Integer.toString(minutu);
+
                 String p=c.getText().toString();
 
 
-                String hairetu[]= {h,m,p};
+                String hairetu[]= {h1,m1,p};
                 dbm.sethenkou(sqlDB,hairetu);
 
                 Toast.makeText(getApplicationContext(),"登録完了",Toast.LENGTH_LONG).show();
