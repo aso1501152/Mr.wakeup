@@ -107,7 +107,7 @@ public class G002 extends AppCompatActivity {
 
 
                 final CheckBox checkBox3 =(CheckBox)findViewById(R.id.checkBox3);
-                boolean ka =checkBox2.isChecked();
+                boolean ka =checkBox3.isChecked();
                 if (ka == true){
 
                     String ka1 ="1";
@@ -119,7 +119,7 @@ public class G002 extends AppCompatActivity {
 
 
                 final CheckBox checkBox4 =(CheckBox)findViewById(R.id.checkBox4);
-                boolean sui =checkBox2.isChecked();
+                boolean sui =checkBox4.isChecked();
                 if (sui == true){
 
                     String sui1 ="1";
@@ -131,7 +131,7 @@ public class G002 extends AppCompatActivity {
 
 
                 final CheckBox checkBox5 =(CheckBox)findViewById(R.id.checkBox5);
-                boolean moku =checkBox2.isChecked();
+                boolean moku =checkBox5.isChecked();
                 if (moku == true){
 
                     String moku1 ="1";
@@ -143,7 +143,7 @@ public class G002 extends AppCompatActivity {
 
 
                 final CheckBox checkBox6 =(CheckBox)findViewById(R.id.checkBox6);
-                boolean kin =checkBox2.isChecked();
+                boolean kin =checkBox6.isChecked();
                 if (kin == true){
 
                     String kin1 ="1";
@@ -155,7 +155,7 @@ public class G002 extends AppCompatActivity {
 
 
                 final CheckBox checkBox7 =(CheckBox)findViewById(R.id.checkBox7);
-                boolean dou =checkBox2.isChecked();
+                boolean dou =checkBox7.isChecked();
                 if (dou == true){
 
                     String dou1 ="1";
