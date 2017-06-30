@@ -72,15 +72,13 @@ public class G002 extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                final EditText a = (EditText) findViewById(R.id.abc);
-                final EditText b = (EditText) findViewById(R.id.bca);
                 final EditText c = (EditText) findViewById(R.id.cab);
 
 
                 TimePicker timePicker1 =(TimePicker)findViewById(R.id.timePicker);
 
-                int hour =timePicker1.getCurrentHour();
-                int minutu =timePicker1.getCurrentHour();
+                int hour =timePicker1.getHour();
+                int minutu =timePicker1.getMinute();
 
                 String h1 = Integer.toString(hour);
                 String m1 =Integer.toString(minutu);
