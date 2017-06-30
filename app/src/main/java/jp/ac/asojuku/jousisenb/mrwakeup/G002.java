@@ -27,6 +27,13 @@ public class G002 extends AppCompatActivity {
     private SQLiteDatabase sqlDB;
     DBManager dbm;
     Button button;
+    private CheckBox checkBox1;
+    private CheckBox checkBox2;
+    private CheckBox checkBox3;
+    private CheckBox checkBox4;
+    private CheckBox checkBox5;
+    private CheckBox checkBox6;
+    private CheckBox checkBox7;
 
     private void setTimes(ListView List){
       //  SQLiteCursor cursor=null;
@@ -58,18 +65,107 @@ public class G002 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_g002);
 
-        //チェックボックスのデータを読み出す
-        //final CheckBox checkBox =(CheckBox)findViewById(R.id.checkBox);
-        //checkBox.setOnClickListener(new View.OnClickListener(){
+
         dbm =new DBManager(this);
         sqlDB =dbm.getWritableDatabase();
         timePicker = (TimePicker) findViewById(R.id.timePicker);
 
         button = (Button) findViewById(R.id.buttondayo);
+
+
+
         button.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
+
+                String[] youbi1;
+                youbi1 = new String[7];
+                final CheckBox checkBox1 =(CheckBox)findViewById(R.id.checkBox1);
+                boolean niti = checkBox1.isChecked();
+
+
+                if (niti == true){
+
+                    String niti1 ="1";
+                    youbi1[0]=niti1;
+                }else {
+                    String niti1 ="0";
+                    youbi1[0]=niti1;
+                }
+
+                final CheckBox checkBox2 =(CheckBox)findViewById(R.id.checkBox2);
+                boolean getu =checkBox2.isChecked();
+                if (getu == true){
+
+                    String getu1 ="1";
+                    youbi1[1]=getu1;
+                }else {
+                    String getu1 ="0";
+                    youbi1[1]=getu1;
+                }
+
+
+                final CheckBox checkBox3 =(CheckBox)findViewById(R.id.checkBox3);
+                boolean ka =checkBox2.isChecked();
+                if (ka == true){
+
+                    String ka1 ="1";
+                    youbi1[2]=ka1;
+                }else {
+                    String ka1 ="0";
+                    youbi1[2]=ka1;
+                }
+
+
+                final CheckBox checkBox4 =(CheckBox)findViewById(R.id.checkBox4);
+                boolean sui =checkBox2.isChecked();
+                if (sui == true){
+
+                    String sui1 ="1";
+                    youbi1[3]=sui1;
+                }else {
+                    String sui1 ="0";
+                    youbi1[3]=sui1;
+                }
+
+
+                final CheckBox checkBox5 =(CheckBox)findViewById(R.id.checkBox5);
+                boolean moku =checkBox2.isChecked();
+                if (moku == true){
+
+                    String moku1 ="1";
+                    youbi1[4]=moku1;
+                }else {
+                    String moku1 ="0";
+                    youbi1[4]=moku1;
+                }
+
+
+                final CheckBox checkBox6 =(CheckBox)findViewById(R.id.checkBox6);
+                boolean kin =checkBox2.isChecked();
+                if (kin == true){
+
+                    String kin1 ="1";
+                    youbi1[5]=kin1;
+                }else {
+                    String kin1 ="0";
+                    youbi1[5]=kin1;
+                }
+
+
+                final CheckBox checkBox7 =(CheckBox)findViewById(R.id.checkBox7);
+                boolean dou =checkBox2.isChecked();
+                if (dou == true){
+
+                    String dou1 ="1";
+                    youbi1[6]=dou1;
+                }else {
+                    String dou1 ="0";
+                    youbi1[6]=dou1;
+                }
+
+
 
                 final EditText c = (EditText) findViewById(R.id.cab);
 
@@ -87,7 +183,7 @@ public class G002 extends AppCompatActivity {
                 String hairetu[]= {h1,m1,p};
                 dbm.sethenkou(sqlDB,hairetu);
 
-                Toast.makeText(getApplicationContext(),"登録完了",Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(),youbi1[0]+youbi1[1]+youbi1[2]+youbi1[3]+youbi1[4]+youbi1[5]+youbi1[6]+"登録完了",Toast.LENGTH_LONG).show();
 
             }
         });
