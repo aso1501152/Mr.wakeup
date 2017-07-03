@@ -39,7 +39,7 @@ public class DBManager extends SQLiteOpenHelper  {
                 " setHour TEXT,"   +
                 " setMinitue TEXT )");
 
-        db.execSQL("INSERT INTO tabira VALUES(1,'08044445555','2121222','17','00')");
+        db.execSQL("INSERT INTO tabira VALUES(1,'08044445555','0101100','17','00')");
 
     }
 
@@ -116,32 +116,4 @@ public class DBManager extends SQLiteOpenHelper  {
         db.execSQL("DROP TABLE tabira");
         onCreate(db);
     }
-
-    public String getday(SQLiteDatabase db){
-        String result = "";
-        String select = "SELECT * FROM tabira WHERE _id = 1";
-
-        SQLiteCursor cursor = (SQLiteCursor)db.rawQuery(select,null);
-        if(cursor.getCount() != 0){
-            cursor.moveToFirst();
-            result = cursor.getString(2);
-        }
-        cursor.close();
-        return result;
-
-    }
-
-    public String getphone(SQLiteDatabase db){
-        String result="";
-        String select = "SELECT * FROM tabira WHERE _id = 1";
-
-        SQLiteCursor cursor = (SQLiteCursor)db.rawQuery(select,null);
-        if(cursor.getCount() != 0){
-            cursor.moveToFirst();
-            result = cursor.getString(1);
-        }
-        cursor.close();
-        return result;
-    }
-
 }
