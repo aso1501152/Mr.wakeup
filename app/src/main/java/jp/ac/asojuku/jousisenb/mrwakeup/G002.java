@@ -36,7 +36,7 @@ public class G002 extends AppCompatActivity {
     private CheckBox checkBox7;
 
     private void setTimes(ListView List){
-       //SQLiteCursor cursor=null;
+      //  SQLiteCursor cursor=null;
 
         //データベース空間オープン
         //dbm =new DBManager(this);
@@ -66,11 +66,12 @@ public class G002 extends AppCompatActivity {
         setContentView(R.layout.activity_g002);
 
 
-        dbm = new DBManager(this);
-        sqlDB = dbm.getWritableDatabase();
+        dbm =new DBManager(this);
+        sqlDB =dbm.getWritableDatabase();
         timePicker = (TimePicker) findViewById(R.id.timePicker);
 
         button = (Button) findViewById(R.id.buttondayo);
+
 
 
         button.setOnClickListener(new View.OnClickListener() {
@@ -80,112 +81,139 @@ public class G002 extends AppCompatActivity {
 
                 String[] youbi1;
                 youbi1 = new String[7];
-                final CheckBox checkBox1 = (CheckBox) findViewById(R.id.checkBox1);
+                final CheckBox checkBox1 =(CheckBox)findViewById(R.id.checkBox1);
                 boolean niti = checkBox1.isChecked();
 
 
-                if (niti == true) {
+                if (niti == true){
 
-                    String niti1 = "2";
-                    youbi1[0] = niti1;
-                } else {
-                    String niti1 = "1";
-                    youbi1[0] = niti1;
+                    String niti1 ="1";
+                    youbi1[0]=niti1;
+                }else {
+                    String niti1 ="2";
+                    youbi1[0]=niti1;
                 }
 
-                final CheckBox checkBox2 = (CheckBox) findViewById(R.id.checkBox2);
-                boolean getu = checkBox2.isChecked();
-                if (getu == true) {
+                final CheckBox checkBox2 =(CheckBox)findViewById(R.id.checkBox2);
+                boolean getu =checkBox2.isChecked();
+                if (getu == true){
 
-                    String getu1 = "2";
-                    youbi1[1] = getu1;
-                } else {
-                    String getu1 = "1";
-                    youbi1[1] = getu1;
-                }
-
-
-                final CheckBox checkBox3 = (CheckBox) findViewById(R.id.checkBox3);
-                boolean ka = checkBox3.isChecked();
-                if (ka == true) {
-
-                    String ka1 = "2";
-                    youbi1[2] = ka1;
-                } else {
-                    String ka1 = "1";
-                    youbi1[2] = ka1;
+                    String getu1 ="1";
+                    youbi1[1]=getu1;
+                }else {
+                    String getu1 ="2";
+                    youbi1[1]=getu1;
                 }
 
 
-                final CheckBox checkBox4 = (CheckBox) findViewById(R.id.checkBox4);
-                boolean sui = checkBox4.isChecked();
-                if (sui == true) {
+                final CheckBox checkBox3 =(CheckBox)findViewById(R.id.checkBox3);
+                boolean ka =checkBox3.isChecked();
+                if (ka == true){
 
-                    String sui1 = "2";
-                    youbi1[3] = sui1;
-                } else {
-                    String sui1 = "1";
-                    youbi1[3] = sui1;
+                    String ka1 ="1";
+                    youbi1[2]=ka1;
+                }else {
+                    String ka1 ="2";
+                    youbi1[2]=ka1;
                 }
 
 
-                final CheckBox checkBox5 = (CheckBox) findViewById(R.id.checkBox5);
-                boolean moku = checkBox5.isChecked();
-                if (moku == true) {
+                final CheckBox checkBox4 =(CheckBox)findViewById(R.id.checkBox4);
+                boolean sui =checkBox4.isChecked();
+                if (sui == true){
 
-                    String moku1 = "2";
-                    youbi1[4] = moku1;
-                } else {
-                    String moku1 = "1";
-                    youbi1[4] = moku1;
+                    String sui1 ="1";
+                    youbi1[3]=sui1;
+                }else {
+                    String sui1 ="2";
+                    youbi1[3]=sui1;
                 }
 
 
-                final CheckBox checkBox6 = (CheckBox) findViewById(R.id.checkBox6);
-                boolean kin = checkBox6.isChecked();
-                if (kin == true) {
+                final CheckBox checkBox5 =(CheckBox)findViewById(R.id.checkBox5);
+                boolean moku =checkBox5.isChecked();
+                if (moku == true){
 
-                    String kin1 = "2";
-                    youbi1[5] = kin1;
-                } else {
-                    String kin1 = "1";
-                    youbi1[5] = kin1;
+                    String moku1 ="1";
+                    youbi1[4]=moku1;
+                }else {
+                    String moku1 ="2";
+                    youbi1[4]=moku1;
                 }
 
 
-                final CheckBox checkBox7 = (CheckBox) findViewById(R.id.checkBox7);
-                boolean dou = checkBox7.isChecked();
-                if (dou == true) {
+                final CheckBox checkBox6 =(CheckBox)findViewById(R.id.checkBox6);
+                boolean kin =checkBox6.isChecked();
+                if (kin == true){
 
-                    String dou1 = "2";
-                    youbi1[6] = dou1;
-                } else {
-                    String dou1 = "1";
-                    youbi1[6] = dou1;
+                    String kin1 ="1";
+                    youbi1[5]=kin1;
+                }else {
+                    String kin1 ="2";
+                    youbi1[5]=kin1;
                 }
+
+
+                final CheckBox checkBox7 =(CheckBox)findViewById(R.id.checkBox7);
+                boolean dou =checkBox7.isChecked();
+                if (dou == true){
+
+                    String dou1 ="1";
+                    youbi1[6]=dou1;
+                }else {
+                    String dou1 ="2";
+                    youbi1[6]=dou1;
+                }
+
 
 
                 final EditText c = (EditText) findViewById(R.id.cab);
 
-                TimePicker timePicker1 = (TimePicker) findViewById(R.id.timePicker);
-                int hour = timePicker1.getCurrentHour();
-                int minutu = timePicker1.getCurrentMinute();
+                TimePicker timePicker1 =(TimePicker)findViewById(R.id.timePicker);
+                int hour =timePicker1.getCurrentHour();
+                int minutu =timePicker1.getCurrentMinute();
 
 
                 String h1 = Integer.toString(hour);
-                String m1 = Integer.toString(minutu);
+                String m1 =Integer.toString(minutu);
 
-                String p = c.getText().toString();
+                String p=c.getText().toString();
 
 
-                String youbi2 = youbi1[0] + youbi1[1] + youbi1[2] + youbi1[3] + youbi1[4] + youbi1[5] + youbi1[6];
-                String hairetu[] = {h1, m1, p, youbi2};
-                dbm.sethenkou(sqlDB, hairetu);
+                String youbi2 =youbi1[0]+youbi1[1]+youbi1[2]+youbi1[3]+youbi1[4]+youbi1[5]+youbi1[6];
+                String hairetu[]= {h1,m1,p,youbi2};
+                dbm.sethenkou(sqlDB,hairetu);
 
-                Toast.makeText(getApplicationContext(), youbi1[0] + youbi1[1] + youbi1[2] + youbi1[3] + youbi1[4] + youbi1[5] + youbi1[6] + "登録完了", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(),youbi1[0]+youbi1[1]+youbi1[2]+youbi1[3]+youbi1[4]+youbi1[5]+youbi1[6]+"登録完了",Toast.LENGTH_LONG).show();
 
             }
         });
+
+
+           // @Override
+           // public void onClick(View v) {
+
+
+                //if (checkBox.isChecked()==true){
+                    //trueなら1を並べる
+                   // youbi +="1";
+               // }else {
+               //    //falseなら０を入れる
+                   // youbi +="0";
+                }
+           // }
+      //  });
+
+
+
+
+
+
+        //EditText editText =(EditText)findViewById(R.id.EditText);
+       // String text=editText.getText().toString();
+
+       // EditText editText2 =(EditText)findViewById(R.id.EditText2);
+       // String text2 =editText.getText().toString();
+
     }
-}
 

@@ -68,9 +68,43 @@ public class MainActivity extends Activity implements View.OnClickListener{
   Log.e("TAG","プリファレンス設定開始");
   SharedPreferences pref = getSharedPreferences("pref",MODE_WORLD_READABLE|MODE_WORLD_WRITEABLE);
   SharedPreferences.Editor e = pref.edit();
-  e.putString("flg","off"); //初期値の設定
-  //alarmSetButton.setText(R.string.button_start);
-  alarmSetButton.setText("START");
+
+  //今日がアラーム設定されてたら初期値をonにする
+  Calendar cal = Calendar.getInstance();
+  int week = cal.get(Calendar.DAY_OF_WEEK);
+  if(week == 1){
+   Log.e("TAG","今日は日曜日");
+  }else if(week == 2){
+   Log.e("TAG","今日は月曜日");
+  }else if(week == 3){
+   Log.e("TAG","今日は火曜日");
+  }else if(week == 4){
+   Log.e("TAG","今日は水曜日");
+  }else  if(week == 5){
+   Log.e("TAG","今日は木曜日");
+  }else  if(week == 6){
+   Log.e("TAG","今日は金曜日");
+  }else  if(week == 7) {
+   Log.e("TAG","今日は土曜日");
+  }
+
+  // DBManager のインスタンス生成
+  dbm = new DBManager(this);
+  sqlDB = dbm.getWritableDatabase();
+
+  String setWeek = dbm.getSetWeek(sqlDB);
+  Log.e("TAG", setWeek);
+  String setWeek2 = setWeek.substring(week-1, week);
+  Log.e("TAG", setWeek2);
+
+  //「１」がオン「２」がオフ
+  if(setWeek2.equals(1)) {
+   alarmSetButton.setText("STOP");
+   e.putString("flg","on"); //初期値の設定
+  }else if(setWeek2.equals(2)){
+   e.putString("flg","off"); //初期値の設定
+   alarmSetButton.setText("START");
+  }
   e.commit();
   //初回表示完了
   setState(PREFERENCE_BOOTED);
@@ -132,14 +166,6 @@ public class MainActivity extends Activity implements View.OnClickListener{
      cal.set(Calendar.SECOND, 0);
      cal.set(Calendar.MILLISECOND, 0);
 
-/******************
-    int alarmHour = 10;
-    int alarmMinitue = 45;
- cal.set(Calendar.HOUR_OF_DAY, alarmHour);
- cal.set(Calendar.MINUTE, alarmMinitue);
- cal.set(Calendar.SECOND, 0);
- cal.set(Calendar.MILLISECOND, 0);
- */
     // 過去だったら明日にする
     if(cal.getTimeInMillis() < System.currentTimeMillis()){
      cal.add(Calendar.DAY_OF_YEAR, 1);
@@ -162,12 +188,6 @@ public class MainActivity extends Activity implements View.OnClickListener{
      Toast.makeText(MainActivity.this, String.format("%02d時%02d分にアラームをセットしました", set1, set2), Toast.LENGTH_LONG).show();
 
 
-     //doBindService();
-     //Log.e("TAG","Bind接続開始");
-
-     //トースト表示
-     //Toast.makeText(MainActivity.this, "アラームセット", Toast.LENGTH_LONG).show();
-
     }else{
      Log.e("プリファレンスの値(else)", pref.getString("flg",""));
      alarmSetButton.setText(R.string.button_start);   //セットボタンを「スタート」に書き換え
@@ -177,6 +197,29 @@ public class MainActivity extends Activity implements View.OnClickListener{
      // アラームのキャンセル
      Log.e("TAG", "stopAlarm()");
      doUnbindService();
+
+     //もし翌日もアラーム設定されてたらアラームを再セット
+     int week = cal.get(Calendar.DAY_OF_WEEK);
+     int nextday = week+1;
+
+     // DBManager のインスタンス生成
+     dbm = new DBManager(MainActivity.this);
+     sqlDB = dbm.getWritableDatabase();
+
+     String setWeek = dbm.getSetWeek(sqlDB);
+     Log.e("TAG", setWeek);
+     String setWeek2 = setWeek.substring(nextday-1, nextday);
+     Log.e("TAG", setWeek2);
+
+     if(setWeek2.equals(1)) {
+      alarmSetButton.setText("STOP");
+      e.putString("flg","on"); //初期値の設定
+      Toast.makeText(MainActivity.this, "翌日もアラームが設定されています", Toast.LENGTH_SHORT).show();
+     }else if(setWeek2.equals(2)){
+      e.putString("flg","off"); //初期値の設定
+      alarmSetButton.setText("START");
+     }
+     e.commit();
     }
    }
   });
@@ -202,7 +245,6 @@ public class MainActivity extends Activity implements View.OnClickListener{
   public void onServiceConnected(ComponentName className, IBinder service) {
 
    // サービスとの接続確立時に呼び出される
-   //Toast.makeText(MainActivity.this, "Activity:onServiceConnected",Toast.LENGTH_SHORT).show();
 
    // サービスにはIBinder経由で#getService()してダイレクトにアクセス可能
    mBoundService = ((AlarmService.ServiceBinder)service).getService();
