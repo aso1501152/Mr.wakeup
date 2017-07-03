@@ -111,6 +111,7 @@ public class DBManager extends SQLiteOpenHelper  {
         return result;
     }
 
+
     //変更処理
     public void sethenkou(SQLiteDatabase db,String hairetu[]){
 
