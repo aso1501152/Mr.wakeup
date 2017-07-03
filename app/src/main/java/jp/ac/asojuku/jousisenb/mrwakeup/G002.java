@@ -35,30 +35,6 @@ public class G002 extends AppCompatActivity {
     private CheckBox checkBox6;
     private CheckBox checkBox7;
 
-    private void setTimes(ListView List){
-       //SQLiteCursor cursor=null;
-
-        //データベース空間オープン
-        //dbm =new DBManager(this);
-        //sqlDB =dbm.getWritableDatabase();
-
-        //DBManager.javaで定義したメソッドを呼び出し
-       // cursor= dbm.selectTime(sqlDB);
-
-        //formの配列に入れる
-        //String[]form={"phrase"};
-
-       // String zikan;
-       // String dayw;
-        //String bangou;
-
-        //時間を入れる
-       // zikan = form[3];
-        //曜日を入れる
-       // dayw=form[2];
-        //番号を入れる
-       // bangou=form[1];
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +44,15 @@ public class G002 extends AppCompatActivity {
 
         dbm = new DBManager(this);
         sqlDB = dbm.getWritableDatabase();
+        String day2 = dbm.getday(sqlDB);
+        String phone2=dbm.getphone(sqlDB);
+        String hour=dbm.getSetHour(sqlDB);
+        String minute=dbm.getSetMinitue(sqlDB);
+
+
+        Toast.makeText(getApplicationContext(),day2+phone2+hour+minute, Toast.LENGTH_LONG).show();
+
+
         timePicker = (TimePicker) findViewById(R.id.timePicker);
 
         button = (Button) findViewById(R.id.buttondayo);

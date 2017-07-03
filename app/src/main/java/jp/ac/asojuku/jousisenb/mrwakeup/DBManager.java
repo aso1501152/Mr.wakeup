@@ -85,6 +85,31 @@ public class DBManager extends SQLiteOpenHelper  {
     }
 
     //ユーザーからセットされた時間を得る
+    public String getday(SQLiteDatabase db) {
+        String result = "";
+        String select = "SELECT * FROM tabira WHERE _id = 1";
+
+        SQLiteCursor cursor = (SQLiteCursor)db.rawQuery(select,null);
+        if(cursor.getCount() != 0){
+            cursor.moveToFirst();
+            result = cursor.getString(2);
+        }
+        cursor.close();
+        return result;
+    }
+    public String getphone(SQLiteDatabase db) {
+        String result = "";
+        String select = "SELECT * FROM tabira WHERE _id = 1";
+
+        SQLiteCursor cursor = (SQLiteCursor)db.rawQuery(select,null);
+        if(cursor.getCount() != 0){
+            cursor.moveToFirst();
+            result = cursor.getString(1);
+        }
+        cursor.close();
+        return result;
+    }
+
     public String getSetMinitue(SQLiteDatabase db) {
         String result = "";
         String select = "SELECT * FROM tabira WHERE _id = 1";
@@ -97,6 +122,8 @@ public class DBManager extends SQLiteOpenHelper  {
         cursor.close();
         return result;
     }
+
+
 
     //セットされた曜日を得る
     public String getSetWeek(SQLiteDatabase db) {
