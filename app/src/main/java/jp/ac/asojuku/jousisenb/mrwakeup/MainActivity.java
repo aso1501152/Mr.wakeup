@@ -111,6 +111,7 @@ public class MainActivity extends Activity implements View.OnClickListener{
   Calendar cal = Calendar.getInstance();
   int week = cal.get(Calendar.DAY_OF_WEEK);
 
+
   // DBManager のインスタンス生成
   dbm = new DBManager(this);
   sqlDB = dbm.getWritableDatabase();
