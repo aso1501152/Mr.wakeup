@@ -54,44 +54,6 @@ public class MainActivity extends Activity implements View.OnClickListener{
   // btn1のクリックイベント時の場所を指定(今回はメインページ指定なので「this」を指定している)
   alarmSetButton.setOnClickListener(this);
 
-  //今日がアラーム設定されてたら初期値をonにする
-  Calendar cal = Calendar.getInstance();
-  int week = cal.get(Calendar.DAY_OF_WEEK);
-  if(week == 1){
-   Log.e("TAG","今日は日曜日");
-  }else if(week == 2){
-   Log.e("TAG","今日は月曜日");
-  }else if(week == 3){
-   Log.e("TAG","今日は火曜日");
-  }else if(week == 4){
-   Log.e("TAG","今日は水曜日");
-  }else  if(week == 5){
-   Log.e("TAG","今日は木曜日");
-  }else  if(week == 6){
-   Log.e("TAG","今日は金曜日");
-  }else  if(week == 7) {
-   Log.e("TAG","今日は土曜日");
-  }
-
-  // DBManager のインスタンス生成
-  dbm = new DBManager(this);
-  sqlDB = dbm.getWritableDatabase();
-
-  String setWeek = dbm.getSetWeek(sqlDB);
-  Log.e("TAG", setWeek);
-  String setWeek2 = setWeek.substring(week-1, week);
-  Log.e("TAG", setWeek2);
-
-  //「１」がオン「２」がオフ
-  if(setWeek2.equals("1")) {
-   alarmSetButton.setText("STOP");
-    //e.putString("flg","on"); //初期値の設定
-  }else if(setWeek2.equals("2")){
-   //e.putString("flg","off"); //初期値の設定
-   alarmSetButton.setText("START");
-  }
-  //e.commit();
-
   // プリファレンスの初期値メソッド呼び出し
   iniSet();
   Log.e("TAG","初期化OK");
@@ -100,17 +62,34 @@ public class MainActivity extends Activity implements View.OnClickListener{
  @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
  //初期値設定
  private void iniSet() {
-  Log.e("TAG","iniSet入った");
-  final Button alarmSetButton = (Button)findViewById(R.id.alarmSetButton);
+  Log.e("TAG", "iniSet入った");
+  final Button alarmSetButton = (Button) findViewById(R.id.alarmSetButton);
   // Preferenceの初期値設定
-  Log.e("TAG","プリファレンス設定開始");
-  SharedPreferences pref = getSharedPreferences("pref",MODE_WORLD_READABLE|MODE_WORLD_WRITEABLE);
+  Log.e("TAG", "プリファレンス設定開始");
+  SharedPreferences pref = getSharedPreferences("pref", MODE_WORLD_READABLE | MODE_WORLD_WRITEABLE);
   SharedPreferences.Editor e = pref.edit();
+  alarmSetButton.setText("START");
+  e.putString("flg", "off");
 
+/*
   //今日がアラーム設定されてたら初期値をonにする
   Calendar cal = Calendar.getInstance();
   int week = cal.get(Calendar.DAY_OF_WEEK);
-
+  if (week == 1) {
+   Log.e("TAG", "今日は日曜日");
+  } else if (week == 2) {
+   Log.e("TAG", "今日は月曜日");
+  } else if (week == 3) {
+   Log.e("TAG", "今日は火曜日");
+  } else if (week == 4) {
+   Log.e("TAG", "今日は水曜日");
+  } else if (week == 5) {
+   Log.e("TAG", "今日は木曜日");
+  } else if (week == 6) {
+   Log.e("TAG", "今日は金曜日");
+  } else if (week == 7) {
+   Log.e("TAG", "今日は土曜日");
+  }
 
   // DBManager のインスタンス生成
   dbm = new DBManager(this);
@@ -118,21 +97,53 @@ public class MainActivity extends Activity implements View.OnClickListener{
 
   String setWeek = dbm.getSetWeek(sqlDB);
   Log.e("TAG", setWeek);
-  String setWeek2 = setWeek.substring(week-1, week);
+  String setWeek2 = setWeek.substring(week - 1, week);
   Log.e("TAG", setWeek2);
 
-  //「１」がオン「２」がオフ
-  if(setWeek2.equals("1")) {
+  //「2」がオン「1」がオフ
+  if (setWeek2.equals("2")) {
    alarmSetButton.setText("STOP");
-   e.putString("flg","on"); //初期値の設定
-  }else if(setWeek2.equals("2")){
-   e.putString("flg","off"); //初期値の設定
+   e.putString("flg", "on"); //初期値の設定
+  } else if (setWeek2.equals("1")) {
+   e.putString("flg", "off"); //初期値の設定
    alarmSetButton.setText("START");
   }
   e.commit();
   //初回表示完了
   setState(PREFERENCE_BOOTED);
-  Log.e("TAG","プリファレンス初期化OK");
+  Log.e("TAG", "プリファレンス初期化OK");
+
+  // DBManager のインスタンス生成
+  sqlDB = dbm.getWritableDatabase();
+  String setHour = dbm.getSetHour(sqlDB);
+  String setMinitue = dbm.getSetMinitue(sqlDB);
+  int set1 = Integer.parseInt(setHour);
+  int set2 = Integer.parseInt(setMinitue);
+
+  // アラーム時間設定
+  cal.setTimeInMillis(System.currentTimeMillis());
+
+  // 設定した時刻をカレンダーに設定
+  cal.set(Calendar.HOUR_OF_DAY, set1);
+  cal.set(Calendar.MINUTE, set2);
+  cal.set(Calendar.SECOND, 0);
+  cal.set(Calendar.MILLISECOND, 0);
+
+  // 過去だったら明日にする
+  if (cal.getTimeInMillis() < System.currentTimeMillis()) {
+   cal.add(Calendar.DAY_OF_YEAR, 1);
+  }
+
+  if (pref.getString("flg", "").equals("on")) {
+
+   // アラームを設定する
+
+   //メモ：第二引数を被らないものにする
+   mAlarmSender = PendingIntent.getService(MainActivity.this, 777, new Intent(MainActivity.this, AlarmService.class), PendingIntent.FLAG_UPDATE_CURRENT);
+
+   am.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), mAlarmSender);
+   Log.e("TAG", "アラームセット完了");
+  }*/
  }
 
  private void setState(int preferenceBooted) {
@@ -205,7 +216,7 @@ public class MainActivity extends Activity implements View.OnClickListener{
      // アラームを設定する
 
      //メモ：第二引数を被らないものにする
-     mAlarmSender = PendingIntent.getService(MainActivity.this, 777, new Intent(MainActivity.this, AlarmService.class), PendingIntent.FLAG_UPDATE_CURRENT);
+     mAlarmSender = PendingIntent.getService(MainActivity.this, 778, new Intent(MainActivity.this, AlarmService.class), PendingIntent.FLAG_UPDATE_CURRENT);
 
      am.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), mAlarmSender);
      Log.e("TAG","アラームセット完了");
@@ -235,11 +246,11 @@ public class MainActivity extends Activity implements View.OnClickListener{
      String setWeek2 = setWeek.substring(nextday-1, nextday);
      Log.e("TAG", setWeek2);
 
-     if(setWeek2.equals(1)) {
+     if(setWeek2.equals("2")) {
       alarmSetButton.setText("STOP");
       e.putString("flg","on"); //初期値の設定
       Toast.makeText(MainActivity.this, "翌日もアラームが設定されています", Toast.LENGTH_SHORT).show();
-     }else if(setWeek2.equals(2)){
+     }else if(setWeek2.equals("1")){
       e.putString("flg","off"); //初期値の設定
       alarmSetButton.setText("START");
      }
@@ -249,7 +260,7 @@ public class MainActivity extends Activity implements View.OnClickListener{
   });
 
  }
-
+/*
  PendingIntent getPendingIntent() {
   Log.e("TAG","getPendingIntent入った");
   // アラーム時に起動するアプリケーションを登録
@@ -259,6 +270,7 @@ public class MainActivity extends Activity implements View.OnClickListener{
   Log.e("TAG","getPendingIntent入った3");
   return pendingIntent;
  }
+ */
 
 
  //取得したServiceの保存
