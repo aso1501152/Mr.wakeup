@@ -54,21 +54,6 @@ public class MainActivity extends Activity implements View.OnClickListener{
   // btn1のクリックイベント時の場所を指定(今回はメインページ指定なので「this」を指定している)
   alarmSetButton.setOnClickListener(this);
 
-  // プリファレンスの初期値メソッド呼び出し
-  iniSet();
-  Log.e("TAG","初期化OK");
- }
-
- @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
- //初期値設定
- private void iniSet() {
-  Log.e("TAG","iniSet入った");
-  final Button alarmSetButton = (Button)findViewById(R.id.alarmSetButton);
-  // Preferenceの初期値設定
-  Log.e("TAG","プリファレンス設定開始");
-  SharedPreferences pref = getSharedPreferences("pref",MODE_WORLD_READABLE|MODE_WORLD_WRITEABLE);
-  SharedPreferences.Editor e = pref.edit();
-
   //今日がアラーム設定されてたら初期値をonにする
   Calendar cal = Calendar.getInstance();
   int week = cal.get(Calendar.DAY_OF_WEEK);
@@ -98,10 +83,48 @@ public class MainActivity extends Activity implements View.OnClickListener{
   Log.e("TAG", setWeek2);
 
   //「１」がオン「２」がオフ
-  if(setWeek2.equals(1)) {
+  if(setWeek2.equals("1")) {
+   alarmSetButton.setText("STOP");
+    //e.putString("flg","on"); //初期値の設定
+  }else if(setWeek2.equals("2")){
+   //e.putString("flg","off"); //初期値の設定
+   alarmSetButton.setText("START");
+  }
+  //e.commit();
+
+  // プリファレンスの初期値メソッド呼び出し
+  iniSet();
+  Log.e("TAG","初期化OK");
+ }
+
+ @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
+ //初期値設定
+ private void iniSet() {
+  Log.e("TAG","iniSet入った");
+  final Button alarmSetButton = (Button)findViewById(R.id.alarmSetButton);
+  // Preferenceの初期値設定
+  Log.e("TAG","プリファレンス設定開始");
+  SharedPreferences pref = getSharedPreferences("pref",MODE_WORLD_READABLE|MODE_WORLD_WRITEABLE);
+  SharedPreferences.Editor e = pref.edit();
+
+  //今日がアラーム設定されてたら初期値をonにする
+  Calendar cal = Calendar.getInstance();
+  int week = cal.get(Calendar.DAY_OF_WEEK);
+
+  // DBManager のインスタンス生成
+  dbm = new DBManager(this);
+  sqlDB = dbm.getWritableDatabase();
+
+  String setWeek = dbm.getSetWeek(sqlDB);
+  Log.e("TAG", setWeek);
+  String setWeek2 = setWeek.substring(week-1, week);
+  Log.e("TAG", setWeek2);
+
+  //「１」がオン「２」がオフ
+  if(setWeek2.equals("1")) {
    alarmSetButton.setText("STOP");
    e.putString("flg","on"); //初期値の設定
-  }else if(setWeek2.equals(2)){
+  }else if(setWeek2.equals("2")){
    e.putString("flg","off"); //初期値の設定
    alarmSetButton.setText("START");
   }
