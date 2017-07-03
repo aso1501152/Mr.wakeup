@@ -36,18 +36,31 @@ public class G002 extends AppCompatActivity {
     private CheckBox checkBox7;
 
 
+
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_g002);
 
 
+        //データベースから初期値を持ってくる
         dbm = new DBManager(this);
         sqlDB = dbm.getWritableDatabase();
         String day2 = dbm.getday(sqlDB);
         String phone2=dbm.getphone(sqlDB);
         String hour=dbm.getSetHour(sqlDB);
         String minute=dbm.getSetMinitue(sqlDB);
+
+        TimePicker timePicker2 = (TimePicker) findViewById(R.id.timePicker);
+
+        int hour3=Integer.parseInt(hour);
+        int minute3=Integer.parseInt(minute);
+
+        timePicker2.setCurrentHour(hour3);
+        timePicker2.setCurrentMinute(minute3);
 
 
         Toast.makeText(getApplicationContext(),day2+phone2+hour+minute, Toast.LENGTH_LONG).show();
@@ -68,7 +81,7 @@ public class G002 extends AppCompatActivity {
                 final CheckBox checkBox1 = (CheckBox) findViewById(R.id.checkBox1);
                 boolean niti = checkBox1.isChecked();
 
-
+                //チェックボックスの内容を確認し配列に挿入
                 if (niti == true) {
 
                     String niti1 = "2";
@@ -152,11 +165,13 @@ public class G002 extends AppCompatActivity {
 
                 final EditText c = (EditText) findViewById(R.id.cab);
 
+
+                //登録用時間取得
                 TimePicker timePicker1 = (TimePicker) findViewById(R.id.timePicker);
                 int hour = timePicker1.getCurrentHour();
                 int minutu = timePicker1.getCurrentMinute();
 
-
+                //int型をString型に変更
                 String h1 = Integer.toString(hour);
                 String m1 = Integer.toString(minutu);
 
