@@ -73,6 +73,7 @@ public class G002 extends AppCompatActivity {
         int youbi44=0;
 
 
+      //桁ごとに配列に代入
         for (int i = 1; i <= len; i++) {
 
             youbi333[youbi44]=youbi3/d;
