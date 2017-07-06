@@ -7,6 +7,9 @@ import android.os.Bundle;
 
 public class Shake extends AppCompatActivity {
 
+
+    private ShakeListener mShaker;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,6 +26,8 @@ public class Shake extends AppCompatActivity {
             @Override
             public void onShake() {
 
+                Intent intent =new Intent(Shake.this,MainActivity.class);
+                startActivity(intent);
             }
         });
     }
