@@ -62,8 +62,89 @@ public class G002 extends AppCompatActivity {
         timePicker2.setCurrentHour(hour3);
         timePicker2.setCurrentMinute(minute3);
 
+        int youbi3 = Integer.parseInt(day2);
+        int len = String.valueOf(youbi3).length();
+        int d = (int)Math.pow(10, len - 1);
 
-        Toast.makeText(getApplicationContext(),day2+phone2+hour+minute, Toast.LENGTH_LONG).show();
+        int[] youbi333;
+
+        youbi333 =new int[7];
+
+        int youbi44=0;
+
+
+        for (int i = 1; i <= len; i++) {
+
+            youbi333[youbi44]=youbi3/d;
+
+            youbi3 %= d;
+            d /= 10;
+
+            youbi44 +=1;
+        }
+
+
+        EditText editText2 = (EditText) findViewById(R.id.cab);
+        editText2.setText(phone2);
+
+
+        final CheckBox checkBox1 = (CheckBox) findViewById(R.id.checkBox1);
+
+        if (youbi333[0]==2){
+            checkBox1.setChecked(true);
+        }else {
+            checkBox1.setChecked(false);
+        }
+
+
+        final CheckBox checkBox2 = (CheckBox) findViewById(R.id.checkBox2);
+
+
+        if (youbi333[1]==2){
+            checkBox2.setChecked(true);
+        }else {
+            checkBox2.setChecked(false);
+        }
+
+        final CheckBox checkBox3 = (CheckBox) findViewById(R.id.checkBox3);
+
+        if (youbi333[2]==2){
+            checkBox3.setChecked(true);
+        }else {
+            checkBox3.setChecked(false);
+        }
+
+        final CheckBox checkBox4 = (CheckBox) findViewById(R.id.checkBox4);
+
+        if (youbi333[3]==2){
+            checkBox4.setChecked(true);
+        }else {
+            checkBox4.setChecked(false);
+        }
+
+
+        final CheckBox checkBox5 = (CheckBox) findViewById(R.id.checkBox5);
+
+        if (youbi333[4]==2){
+            checkBox5.setChecked(true);
+        }else {
+            checkBox5.setChecked(false);
+        }
+
+        final CheckBox checkBox6 = (CheckBox) findViewById(R.id.checkBox6);
+        if (youbi333[5]==2){
+            checkBox6.setChecked(true);
+        }else {
+            checkBox6.setChecked(false);
+        }
+
+        final CheckBox checkBox7 = (CheckBox) findViewById(R.id.checkBox7);
+
+        if (youbi333[6]==2){
+            checkBox7.setChecked(true);
+        }else {
+            checkBox7.setChecked(false);
+        }
 
 
         timePicker = (TimePicker) findViewById(R.id.timePicker);

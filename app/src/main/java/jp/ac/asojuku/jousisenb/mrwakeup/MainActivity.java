@@ -152,10 +152,10 @@ public class MainActivity extends Activity implements View.OnClickListener{
   clock.setText(time);  //DBから取得したやつをセットしたい
   //TextViewにリスナーをセット
   clock.setOnClickListener(new View.OnClickListener() {
-   @Override
-   public void onClick(View view) {
-    //時計をタップされたら次の画面を表示
-    Intent intent = new Intent(MainActivity.this, G002.class);
+    @Override
+    public void onClick(View view) {
+     //時計をタップされたら次の画面を表示
+     Intent intent = new Intent(MainActivity.this, G002.class);
     startActivity(intent);
    }
   });
