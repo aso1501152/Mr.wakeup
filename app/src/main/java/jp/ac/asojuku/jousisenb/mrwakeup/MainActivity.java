@@ -1,5 +1,6 @@
 package jp.ac.asojuku.jousisenb.mrwakeup;
 
+import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.ComponentName;
 import android.content.Context;
@@ -23,7 +24,8 @@ import android.widget.Toast;
 
 import java.util.Calendar;
 
-public class MainActivity extends AppCompatActivity  implements View.OnClickListener{
+//public class MainActivity extends AppCompatActivity  implements View.OnClickListener{
+public class MainActivity extends Activity implements View.OnClickListener{
 
 
  AlarmManager am;
@@ -41,7 +43,7 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
   super.onCreate(savedInstanceState);
   setContentView(R.layout.activity_main);
 
-  //初期化しなくてもいいならエラーになるのでアウト
+ //初期化しなくてもいいならエラーになるのでアウト
   Log.e("TAG","初期化開始");
   am = (AlarmManager)MainActivity.this.getSystemService(Context.ALARM_SERVICE);
   Log.e("TAG","初期化終了");
@@ -60,19 +62,88 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
  @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
  //初期値設定
  private void iniSet() {
-  Log.e("TAG","iniSet入った");
-  final Button alarmSetButton = (Button)findViewById(R.id.alarmSetButton);
+  Log.e("TAG", "iniSet入った");
+  final Button alarmSetButton = (Button) findViewById(R.id.alarmSetButton);
   // Preferenceの初期値設定
-  Log.e("TAG","プリファレンス設定開始");
-  SharedPreferences pref = getSharedPreferences("pref",MODE_WORLD_READABLE|MODE_WORLD_WRITEABLE);
+  Log.e("TAG", "プリファレンス設定開始");
+  SharedPreferences pref = getSharedPreferences("pref", MODE_WORLD_READABLE | MODE_WORLD_WRITEABLE);
   SharedPreferences.Editor e = pref.edit();
-  e.putString("flg","off"); //初期値の設定
-  //alarmSetButton.setText(R.string.button_start);
   alarmSetButton.setText("START");
+  e.putString("flg", "off");
+
+/*
+  //今日がアラーム設定されてたら初期値をonにする
+  Calendar cal = Calendar.getInstance();
+  int week = cal.get(Calendar.DAY_OF_WEEK);
+  if (week == 1) {
+   Log.e("TAG", "今日は日曜日");
+  } else if (week == 2) {
+   Log.e("TAG", "今日は月曜日");
+  } else if (week == 3) {
+   Log.e("TAG", "今日は火曜日");
+  } else if (week == 4) {
+   Log.e("TAG", "今日は水曜日");
+  } else if (week == 5) {
+   Log.e("TAG", "今日は木曜日");
+  } else if (week == 6) {
+   Log.e("TAG", "今日は金曜日");
+  } else if (week == 7) {
+   Log.e("TAG", "今日は土曜日");
+  }
+
+  // DBManager のインスタンス生成
+  dbm = new DBManager(this);
+  sqlDB = dbm.getWritableDatabase();
+
+  String setWeek = dbm.getSetWeek(sqlDB);
+  Log.e("TAG", setWeek);
+  String setWeek2 = setWeek.substring(week - 1, week);
+  Log.e("TAG", setWeek2);
+
+  //「2」がオン「1」がオフ
+  if (setWeek2.equals("2")) {
+   alarmSetButton.setText("STOP");
+   e.putString("flg", "on"); //初期値の設定
+  } else if (setWeek2.equals("1")) {
+   e.putString("flg", "off"); //初期値の設定
+   alarmSetButton.setText("START");
+  }
   e.commit();
   //初回表示完了
   setState(PREFERENCE_BOOTED);
-  Log.e("TAG","プリファレンス初期化OK");
+  Log.e("TAG", "プリファレンス初期化OK");
+
+  // DBManager のインスタンス生成
+  sqlDB = dbm.getWritableDatabase();
+  String setHour = dbm.getSetHour(sqlDB);
+  String setMinitue = dbm.getSetMinitue(sqlDB);
+  int set1 = Integer.parseInt(setHour);
+  int set2 = Integer.parseInt(setMinitue);
+
+  // アラーム時間設定
+  cal.setTimeInMillis(System.currentTimeMillis());
+
+  // 設定した時刻をカレンダーに設定
+  cal.set(Calendar.HOUR_OF_DAY, set1);
+  cal.set(Calendar.MINUTE, set2);
+  cal.set(Calendar.SECOND, 0);
+  cal.set(Calendar.MILLISECOND, 0);
+
+  // 過去だったら明日にする
+  if (cal.getTimeInMillis() < System.currentTimeMillis()) {
+   cal.add(Calendar.DAY_OF_YEAR, 1);
+  }
+
+  if (pref.getString("flg", "").equals("on")) {
+
+   // アラームを設定する
+
+   //メモ：第二引数を被らないものにする
+   mAlarmSender = PendingIntent.getService(MainActivity.this, 777, new Intent(MainActivity.this, AlarmService.class), PendingIntent.FLAG_UPDATE_CURRENT);
+
+   am.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), mAlarmSender);
+   Log.e("TAG", "アラームセット完了");
+  }*/
  }
 
  private void setState(int preferenceBooted) {
@@ -92,10 +163,10 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
   clock.setText(time);  //DBから取得したやつをセットしたい
   //TextViewにリスナーをセット
   clock.setOnClickListener(new View.OnClickListener() {
-   @Override
-   public void onClick(View view) {
-    //時計をタップされたら次の画面を表示
-    Intent intent = new Intent(MainActivity.this, G002.class);
+    @Override
+    public void onClick(View view) {
+     //時計をタップされたら次の画面を表示
+     Intent intent = new Intent(MainActivity.this, G002.class);
     startActivity(intent);
    }
   });
@@ -112,29 +183,28 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
     SharedPreferences pref = getSharedPreferences("pref", MODE_WORLD_READABLE | MODE_WORLD_WRITEABLE);
     SharedPreferences.Editor e = pref.edit();
 
-    // DBManager のインスタンス生成
-    sqlDB = dbm.getWritableDatabase();
-    String setHour = dbm.getSetHour(sqlDB);
-    String setMinitue = dbm.getSetMinitue(sqlDB);
-    int set1 = Integer.parseInt(setHour);
-    int set2 = Integer.parseInt(setMinitue);
+     // DBManager のインスタンス生成
+     sqlDB = dbm.getWritableDatabase();
+     String setHour = dbm.getSetHour(sqlDB);
+     String setMinitue = dbm.getSetMinitue(sqlDB);
+     int set1 = Integer.parseInt(setHour);
+     int set2 = Integer.parseInt(setMinitue);
 
-    // アラーム時間設定
-    Calendar cal = Calendar.getInstance();
-    cal.setTimeInMillis(System.currentTimeMillis());
+     // アラーム時間設定
+     Calendar cal = Calendar.getInstance();
+     cal.setTimeInMillis(System.currentTimeMillis());
 
-    // 設定した時刻をカレンダーに設定
-    cal.set(Calendar.HOUR_OF_DAY, set1);
-    cal.set(Calendar.MINUTE, set2);
-    cal.set(Calendar.SECOND, 0);
-    cal.set(Calendar.MILLISECOND, 0);
-    
-     // 過去だったら明日にする
+     // 設定した時刻をカレンダーに設定
+
+     cal.set(Calendar.HOUR_OF_DAY, set1);
+     cal.set(Calendar.MINUTE, set2);
+     cal.set(Calendar.SECOND, 0);
+     cal.set(Calendar.MILLISECOND, 0);
+
+    // 過去だったら明日にする
     if(cal.getTimeInMillis() < System.currentTimeMillis()){
      cal.add(Calendar.DAY_OF_YEAR, 1);
     }
-
-    Log.e("設定時間",cal.getTimeInMillis()+"ms");
 
     if(pref.getString("flg", "").equals("off")){
      Log.e("プリファレンスの値(if)", pref.getString("flg",""));
@@ -146,49 +216,25 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
      // アラームを設定する
 
      //メモ：第二引数を被らないものにする
-     mAlarmSender = PendingIntent.getService(MainActivity.this, 777, new Intent(MainActivity.this, AlarmService.class), PendingIntent.FLAG_UPDATE_CURRENT);
+     mAlarmSender = PendingIntent.getService(MainActivity.this, 778, new Intent(MainActivity.this, AlarmService.class), PendingIntent.FLAG_UPDATE_CURRENT);
 
      am.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), mAlarmSender);
      Log.e("TAG","アラームセット完了");
-
-
-     //doBindService();
-     //Log.e("TAG","Bind接続開始");
-
-     //トースト表示
      Toast.makeText(MainActivity.this, String.format("%02d時%02d分にアラームをセットしました", set1, set2), Toast.LENGTH_LONG).show();
+
 
     }else{
      Log.e("プリファレンスの値(else)", pref.getString("flg",""));
-     /*
      alarmSetButton.setText(R.string.button_start);   //セットボタンを「スタート」に書き換え
      e.putString("flg","off"); //アラームオフ
      e.commit();
-     */
 
      // アラームのキャンセル
      Log.e("TAG", "stopAlarm()");
      doUnbindService();
 
      //もし翌日もアラーム設定されてたらアラームを再セット
-
      int week = cal.get(Calendar.DAY_OF_WEEK);
-     if(week == 1){
-      Log.e("TAG","今日は日曜日");
-     }else if(week == 2){
-      Log.e("TAG","今日は月曜日");
-     }else if(week == 3){
-      Log.e("TAG","今日は火曜日");
-     }else if(week == 4){
-      Log.e("TAG","今日は水曜日");
-     }else  if(week == 5){
-      Log.e("TAG","今日は木曜日");
-     }else  if(week == 6){
-      Log.e("TAG","今日は金曜日");
-     }else  if(week == 7) {
-      Log.e("TAG","今日は土曜日");
-     }
-
      int nextday = week+1;
 
      // DBManager のインスタンス生成
@@ -210,11 +256,22 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
      }
      e.commit();
     }
-
    }
   });
 
  }
+/*
+ PendingIntent getPendingIntent() {
+  Log.e("TAG","getPendingIntent入った");
+  // アラーム時に起動するアプリケーションを登録
+  Intent intent = new Intent(MainActivity.this, AlarmService.class);
+  Log.e("TAG","getPendingIntent入った2");
+  PendingIntent pendingIntent = PendingIntent.getService(MainActivity.this, PendingIntent.FLAG_ONE_SHOT, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+  Log.e("TAG","getPendingIntent入った3");
+  return pendingIntent;
+ }
+ */
+
 
  //取得したServiceの保存
  private AlarmService mBoundService;
@@ -224,7 +281,6 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
   public void onServiceConnected(ComponentName className, IBinder service) {
 
    // サービスとの接続確立時に呼び出される
-   //Toast.makeText(MainActivity.this, "Activity:onServiceConnected",Toast.LENGTH_SHORT).show();
 
    // サービスにはIBinder経由で#getService()してダイレクトにアクセス可能
    mBoundService = ((AlarmService.ServiceBinder)service).getService();
