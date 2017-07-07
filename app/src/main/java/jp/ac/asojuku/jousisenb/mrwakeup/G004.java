@@ -25,8 +25,8 @@ public class G004 extends Activity {
 
 
     protected void findViews() {
-        button1 = (Button) findViewById(R.id.button1);
-        imageView1 = (ImageView) findViewById(R.id.imageView1);
+        //button1 = (Button) findViewById(R.id.button1);
+        //imageView1 = (ImageView) findViewById(R.id.imageView1);
     }
 
     protected void setListeners() {

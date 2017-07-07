@@ -197,7 +197,7 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
 
      String setWeek = dbm.getSetWeek(sqlDB);
      Log.e("TAG", setWeek);
-     String setWeek2 = setWeek.substring(nextday-1, nextday);
+     String setWeek2 = setWeek.substring(week, nextday);
      Log.e("TAG", setWeek2);
 
      if(setWeek2.equals("2")) {

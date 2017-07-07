@@ -1,7 +1,9 @@
 package jp.ac.asojuku.jousisenb.mrwakeup;
 
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,6 +16,11 @@ public class Shake extends AppCompatActivity {
 
     private MediaPlayer mp ;
     private String path;
+
+
+    private SQLiteDatabase sqlDB;
+    DBManager dbm;
+
 
     /** スレッドUI操作用ハンドラ */
     private Handler mHandler = new Handler();
@@ -31,7 +38,16 @@ public class Shake extends AppCompatActivity {
 
         updateText = new Runnable() {
             public void run() {
-                Intent intent =new Intent(Shake.this,G002.class);
+                // DBManager のインスタンス生成
+                dbm = new DBManager(Shake.this);
+                sqlDB = dbm.getWritableDatabase();
+
+                String phone2=dbm.getphone(sqlDB);
+
+                Intent intent = new Intent(
+                        Intent.ACTION_CALL,
+                        Uri.parse("tel:0"+phone2)
+                );
                 startActivity(intent);
                 mp.stop();
             }
@@ -48,8 +64,10 @@ public class Shake extends AppCompatActivity {
         mShaker.setOnShakeListener(new ShakeListener.OnShakeListener() {
             @Override
             public void onShake() {
+
                 Intent intent =new Intent(Shake.this,MainActivity.class);
                 startActivity(intent);
+
                 mp.stop();
             }
         });

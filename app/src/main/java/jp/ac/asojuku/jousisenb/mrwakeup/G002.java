@@ -86,7 +86,7 @@ public class G002 extends AppCompatActivity {
 
 
         EditText editText2 = (EditText) findViewById(R.id.cab);
-        editText2.setText(phone2);
+        editText2.setText("0"+phone2);
 
 
         final CheckBox checkBox1 = (CheckBox) findViewById(R.id.checkBox1);
