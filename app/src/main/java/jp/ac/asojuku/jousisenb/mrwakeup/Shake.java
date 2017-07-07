@@ -2,6 +2,7 @@ package jp.ac.asojuku.jousisenb.mrwakeup;
 
 import android.content.Intent;
 import android.media.MediaPlayer;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -14,14 +15,28 @@ public class Shake extends AppCompatActivity {
     private MediaPlayer mp ;
     private String path;
 
+    /** スレッドUI操作用ハンドラ */
+    private Handler mHandler = new Handler();
+    /** テキストオブジェクト */
+    private Runnable updateText;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shake);
 
         //リソースファイルから再生
-        mp = MediaPlayer.create(this, R.raw.SHAKE);
+        mp = MediaPlayer.create(this, R.raw.shake);
         mp.start();
+
+        updateText = new Runnable() {
+            public void run() {
+                Intent intent =new Intent(Shake.this,G002.class);
+                startActivity(intent);
+                mp.stop();
+            }
+        };
+        mHandler.postDelayed(updateText, 30000);
     }
 
 
@@ -33,9 +48,9 @@ public class Shake extends AppCompatActivity {
         mShaker.setOnShakeListener(new ShakeListener.OnShakeListener() {
             @Override
             public void onShake() {
-
                 Intent intent =new Intent(Shake.this,MainActivity.class);
                 startActivity(intent);
+                mp.stop();
             }
         });
     }
