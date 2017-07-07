@@ -9,6 +9,9 @@ import android.os.Bundle;
 
 public class Shake extends AppCompatActivity {
 
+        private SQLiteDatabase sqlDB;
+    DBManager dbm;
+
 
     private ShakeListener mShaker;
 
@@ -48,8 +51,14 @@ public class Shake extends AppCompatActivity {
         mShaker.setOnShakeListener(new ShakeListener.OnShakeListener() {
             @Override
             public void onShake() {
-                Intent intent =new Intent(Shake.this,MainActivity.class);
+            String phone2=dbm.getphone(sqlDB);
+
+           Intent intent = new Intent(
+                        Intent.ACTION_CALL,
+                        Uri.parse("tel:"+phone2));
+
                 startActivity(intent);
+
                 mp.stop();
             }
         });
