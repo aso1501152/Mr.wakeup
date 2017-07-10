@@ -128,6 +128,11 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
     cal.set(Calendar.MINUTE, set2);
     cal.set(Calendar.SECOND, 0);
     cal.set(Calendar.MILLISECOND, 0);
+    // 過去だったら明日にする
+    if(cal.getTimeInMillis() < System.currentTimeMillis()){
+     cal.add(Calendar.DAY_OF_YEAR, 1);
+    }
+
 
     // 過去だったら明日にする
     if(cal.getTimeInMillis() < System.currentTimeMillis()){

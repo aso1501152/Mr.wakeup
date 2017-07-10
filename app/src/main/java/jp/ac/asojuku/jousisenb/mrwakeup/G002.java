@@ -2,6 +2,7 @@ package jp.ac.asojuku.jousisenb.mrwakeup;
 
 import android.app.Dialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.database.sqlite.SQLiteCursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.icu.util.Calendar;
@@ -264,7 +265,8 @@ public class G002 extends AppCompatActivity {
                 String hairetu[] = {h1, m1, p, youbi2};
                 dbm.sethenkou(sqlDB, hairetu);
 
-                Toast.makeText(getApplicationContext(), youbi1[0] + youbi1[1] + youbi1[2] + youbi1[3] + youbi1[4] + youbi1[5] + youbi1[6] + "登録完了", Toast.LENGTH_LONG).show();
+                Intent intent =new Intent(G002.this,MainActivity.class);
+                startActivity(intent);
 
             }
         });

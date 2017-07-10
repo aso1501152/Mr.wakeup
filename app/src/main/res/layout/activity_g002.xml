@@ -42,7 +42,7 @@
         android:layout_alignParentEnd="true"
         android:layout_marginRight="31dp"
         android:layout_marginEnd="31dp"
-        android:layout_marginTop="350dp"
+        android:layout_marginTop="400dp"
         >
 
         <CheckBox
@@ -65,7 +65,7 @@
             android:layout_weight="1" />
 
         <CheckBox
-            android:text="水"
+            android:text="火"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/checkBox"
@@ -75,7 +75,7 @@
             android:layout_weight="1" />
 
         <CheckBox
-            android:text="火"
+            android:text="水"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/checkBox"
@@ -111,20 +111,8 @@
             android:layout_alignBottom="@+id/checkBox"
             android:layout_toRightOf="@+id/checkBox"
             android:layout_toEndOf="@+id/checkBox"
-            android:id="@+id/checkBox7"
-            android:layout_weight="1" />
+            android:id="@+id/checkBox7" />
     </LinearLayout>
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="number"
-        android:ems="10"
-        android:id="@+id/cab"
-        android:background="#FFFFFF"
-        android:layout_marginBottom="21dp"
-        android:layout_above="@+id/buttondayo"
-        android:layout_centerHorizontal="true" />
 
     <TimePicker
         android:layout_width="wrap_content"
@@ -133,6 +121,19 @@
         android:id="@+id/timePicker"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
+
+        />
+
+    <EditText
+        android:layout_width="600px"
+        android:layout_height="50px"
+        android:inputType="number"
+        android:ems="10"
+        android:id="@+id/cab"
+        android:background="#FFFFFF"
+        android:layout_marginBottom="44dp"
+        android:layout_above="@+id/buttondayo"
+        android:layout_centerHorizontal="true"
 
         />
 
