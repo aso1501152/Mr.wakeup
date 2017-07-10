@@ -33,7 +33,9 @@ public class Shake extends AppCompatActivity {
         setContentView(R.layout.activity_shake);
 
         //リソースファイルから再生
-        mp = MediaPlayer.create(this, R.raw.shake);
+        mp = MediaPlayer.create(this, R.raw.shake2);
+        mp.setLooping(true);
+        mp .seekTo(0);
         mp.start();
 
         updateText = new Runnable() {
@@ -68,7 +70,8 @@ public class Shake extends AppCompatActivity {
                 Intent intent =new Intent(Shake.this,MainActivity.class);
                 startActivity(intent);
 
-                mp.stop();
+                mp.release();
+                mp = null;
             }
         });
     }

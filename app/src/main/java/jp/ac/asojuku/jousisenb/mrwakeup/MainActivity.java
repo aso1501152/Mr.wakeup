@@ -128,6 +128,17 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
     cal.set(Calendar.MINUTE, set2);
     cal.set(Calendar.SECOND, 0);
     cal.set(Calendar.MILLISECOND, 0);
+    // 過去だったら明日にする
+    if(cal.getTimeInMillis() < System.currentTimeMillis()){
+     cal.add(Calendar.DAY_OF_YEAR, 1);
+    }
+
+
+    // 過去だったら明日にする
+    if(cal.getTimeInMillis() < System.currentTimeMillis()){
+     cal.add(Calendar.DAY_OF_YEAR, 1);
+    }
+
 
     Log.e("設定時間",cal.getTimeInMillis()+"ms");
 
@@ -163,7 +174,7 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
 
      // アラームのキャンセル
      Log.e("TAG", "stopAlarm()");
-     doUnbindService();
+     MainActivity.this.doUnbindService();
 
      //もし翌日もアラーム設定されてたらアラームを再セット
 
@@ -195,14 +206,15 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
      String setWeek2 = setWeek.substring(week, nextday);
      Log.e("TAG", setWeek2);
 
+
      if(setWeek2.equals("2")) {
       alarmSetButton.setText("STOP");
       e.putString("flg","on"); //初期値の設定
       Toast.makeText(MainActivity.this, "翌日もアラームが設定されています", Toast.LENGTH_SHORT).show();
-     }else if(setWeek2.equals("1")){
+     }/*else if(setWeek2.equals("1")){
       e.putString("flg","off"); //初期値の設定
       alarmSetButton.setText("START");
-     }
+     }*/
      e.commit();
     }
 
@@ -248,6 +260,7 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
    // コネクションの解除
    unbindService(mConnection);
    mIsBound = false;
+   Log.e("TAG", "アンバインドしました");
   }
  }
 

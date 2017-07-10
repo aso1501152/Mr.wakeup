@@ -18,7 +18,7 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
             @Override
             public void onReceive(Context context, Intent intent) {
                 // toast で受け取りを確認
-                Toast.makeText(context, "Received ", Toast.LENGTH_LONG).show();
+                Toast.makeText(context, "おはようございます！ ", Toast.LENGTH_LONG).show();
 
                 // アラームを受け取って起動するActivityを指定、起動
                 Intent notification = new Intent(context, AlarmNortificationActivity.class);
