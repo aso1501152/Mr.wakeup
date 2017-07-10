@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_shake"
     android:layout_width="match_parent"
@@ -9,5 +10,31 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="jp.ac.asojuku.jousisenb.mrwakeup.Shake">
+    
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/smap_shake"
+        android:scaleType="fitCenter" />
+
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="400px"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/want"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true" />
+
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="400px"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/h"
+        android:layout_marginBottom="119dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="11dp" />
+
 
 </RelativeLayout>
