@@ -265,8 +265,7 @@ public class G002 extends AppCompatActivity {
                 String hairetu[] = {h1, m1, p, youbi2};
                 dbm.sethenkou(sqlDB, hairetu);
 
-                Intent intent =new Intent(G002.this,MainActivity.class);
-                startActivity(intent);
+                G002.this.finish();
 
             }
         });

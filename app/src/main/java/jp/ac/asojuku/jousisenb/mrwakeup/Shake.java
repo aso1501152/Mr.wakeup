@@ -52,6 +52,7 @@ public class Shake extends AppCompatActivity {
                 );
                 startActivity(intent);
                 mp.stop();
+                Shake.this.finish();
             }
         };
         mHandler.postDelayed(updateText, 30000);
@@ -67,8 +68,7 @@ public class Shake extends AppCompatActivity {
             @Override
             public void onShake() {
 
-                Intent intent =new Intent(Shake.this,MainActivity.class);
-                startActivity(intent);
+                Shake.this.finish();
 
                 mp.release();
                 mp = null;

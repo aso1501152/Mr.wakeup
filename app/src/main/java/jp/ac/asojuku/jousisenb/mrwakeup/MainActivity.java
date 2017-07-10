@@ -133,13 +133,6 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
      cal.add(Calendar.DAY_OF_YEAR, 1);
     }
 
-
-    // 過去だったら明日にする
-    if(cal.getTimeInMillis() < System.currentTimeMillis()){
-     cal.add(Calendar.DAY_OF_YEAR, 1);
-    }
-
-
     Log.e("設定時間",cal.getTimeInMillis()+"ms");
 
     if(pref.getString("flg", "").equals("off")){
