@@ -170,8 +170,10 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
      MainActivity.this.doUnbindService();
 
      //もし翌日もアラーム設定されてたらアラームを再セット
+     Calendar cal2 = Calendar.getInstance();
+     int week = cal2.get(Calendar.DAY_OF_WEEK);
+     Log.e("DayOfWeek:", cal2.get(Calendar.DAY_OF_WEEK)+"");
 
-     int week = cal.get(Calendar.DAY_OF_WEEK);
      if(week == 1){
       Log.e("TAG","今日は日曜日");
      }else if(week == 2){
@@ -185,10 +187,8 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
      }else  if(week == 6){
       Log.e("TAG","今日は金曜日");
      }else  if(week == 7) {
-      Log.e("TAG","今日は土曜日");
+      Log.e("TAG", "今日は土曜日");
      }
-
-     int nextday = week+1;
 
      // DBManager のインスタンス生成
      dbm = new DBManager(MainActivity.this);
@@ -196,8 +196,19 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
 
      String setWeek = dbm.getSetWeek(sqlDB);
      Log.e("TAG", setWeek);
-     String setWeek2 = setWeek.substring(week, nextday);
-     Log.e("TAG", setWeek2);
+
+     int nextday;
+     String setWeek2 = "";
+     if(week == 7){
+      nextday = 0;
+      setWeek2 = setWeek.substring(0,1);
+      Log.e("TAG", setWeek2);
+     }else{
+     nextday = week+1;
+      setWeek2 = setWeek.substring(week, nextday);
+      Log.e("TAG", setWeek2+":setweek2");
+     }
+
 
 
      if(setWeek2.equals("2")) {
